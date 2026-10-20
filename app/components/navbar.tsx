@@ -201,9 +201,9 @@ export default function Navbar() {
               solid ? "text-slate-800" : "text-white"
             }`}
           >
-            <span className={`h-px w-6 bg-current transition ${menuOpen ? "translate-y-[7px] rotate-45" : ""}`} />
+            <span className={`h-px w-6 bg-current transition ${menuOpen ? "translate-y-7px rotate-45" : ""}`} />
             <span className={`h-px w-6 bg-current transition ${menuOpen ? "opacity-0" : ""}`} />
-            <span className={`h-px w-6 bg-current transition ${menuOpen ? "-translate-y-[7px] -rotate-45" : ""}`} />
+            <span className={`h-px w-6 bg-current transition ${menuOpen ? "-translate-y-7px -rotate-45" : ""}`} />
           </button>
         </div>
       </nav>

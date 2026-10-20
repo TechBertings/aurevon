@@ -193,7 +193,7 @@ export default function PhotoSlider({
         ref={trackRef}
         onScroll={onScroll}
         style={widths}
-        className="relative flex snap-x snap-mandatory gap-3 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="relative flex snap-x snap-mandatory gap-3 overflow-x-auto scrollbar-width:none [&::-webkit-scrollbar]:hidden"
       >
         {photos.map((p) => (
           <div
