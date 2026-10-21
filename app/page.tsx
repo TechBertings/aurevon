@@ -1,196 +1,386 @@
-import Link from "next/link";
+import type { CSSProperties } from "react";
 import Hero from "./components/hero";
+import {
+  FxStyles,
+  Icon,
+  Marquee,
+  Paper,
+  Parallax,
+  Ph,
+  Reveal,
+  Tilt,
+  Title,
+  Wave,
+  Words,
+  type IconName,
+} from './components/fx';
+import {
+  LifestyleStory,
+  LocationExplorer,
+  type Feature,
+  type Place,
+} from "./components/home-story";
+import { glow } from './components/glow';
+import PhotoSlider from "./components/photo-slider";
 
-// TODO: palitan ng totoong numero ng client
-const stats = [
-  { value: "15+", label: "Years of Experience" },
-  { value: "30+", label: "Markets Covered" },
-  { value: "500+", label: "Clients Advised" },
-  { value: "100%", label: "Independent Advice" },
+/* EDIT HERE: brochure palette (same as About and Santa Sophia) */
+const palette = {
+  "--navy": "#10235e",
+  "--navy-deep": "#0a1740",
+  "--gold": "#b9791f",
+  "--gold-light": "#e2b862",
+  "--gold-dark": "#8f5a12",
+  "--cream": "#fbf6ea",
+  "--paper": "#f3ead6",
+  "--sky": "#cfe5f4",
+  "--aegean": "#1d7db5",
+} as CSSProperties;
+
+/* EDIT HERE: your photos. Put files in public/images/home/ and set the path,
+   e.g. athens: "/images/home/athens.jpg". Leave null to show the placeholder. */
+const IMAGES: Record<string, string | null> = {
+  intro1: null /* whitewashed villa, vertical (arch) */,
+  pool: "/images/pool.jpg"/* terrace or pool, wide */,
+  stone:  "/images/stone.jpg" /* small detail: door, flowers, stone */,
+  lifestyle1: "/images/lifestyle1.jpg", // sea views
+  lifestyle2: "/images/lifestyle2.jpg", // modern living
+  lifestyle3: "/images/lifestyle3.jpg", // history
+  lifestyle4: "/images/lifestyle4.jpg", // quality of life
+  athens: "/images/athens.jpg" /* Acropolis */,
+  santorini: "/images/santorini.jpg" /* blue-domed church */,
+  mykonos: "/images/mykonos.jpg" /* windmills */,
+  crete: "/images/crete.jpg" /* turquoise beach */,
+  thessaloniki: "/images/thessaloniki.jpg" /* White Tower and waterfront */,
+  halkidiki: "/images/halkidiki.jpg" /* beach and pine trees */,
+  finale: "/images/finale.jpg" /* terrace pool at sunset, wide */,
+};
+
+const features: Feature[] = [
+  {
+    icon: "sun",
+    title: "Stunning Sea Views",
+    text: "Wake up to the beauty of the Mediterranean with breathtaking views every day.",
+    src: IMAGES.lifestyle1,
+    label: "Santorini sunset over the sea",
+    tone: "sunset",
+  },
+  {
+    icon: "home",
+    title: "Modern Living Spaces",
+    text: "Designed for comfort, elegance and long-term value.",
+    src: IMAGES.lifestyle2,
+    label: "Modern living room with sea view",
+    tone: "sea",
+  },
+  {
+    icon: "temple",
+    title: "Rich History & Culture",
+    text: "Live close to world-famous historical sites, vibrant towns and authentic Mediterranean life.",
+    src: IMAGES.lifestyle3,
+    label: "Colourful harbour town",
+    tone: "stone",
+  },
+  {
+    icon: "leaf",
+    title: "A Better Quality of Life",
+    text: "Enjoy a peaceful, healthy and inspiring environment for you and your family.",
+    src: IMAGES.lifestyle4,
+    label: "Terrace dining at sunset",
+    tone: "pool",
+  },
 ];
 
-const services = [
+/* x and y place each pin on the map (400 x 440). Move them if you swap the map. */
+const places: Place[] = [
   {
-    href: "/investment",
-    title: "Property Investment",
-    text: "Access carefully selected residential and commercial opportunities across established and emerging markets.",
+    name: "Athens",
+    text: "Modern city living with high rental demand.",
+    src: IMAGES.athens,
+    tone: "stone",
+    x: 213,
+    y: 240,
   },
   {
-    href: "/residency",
-    title: "Residency Opportunities",
-    text: "Understand how qualifying property investments may support your residency objectives.",
+    name: "Santorini",
+    text: "Iconic views and luxury investments.",
+    src: IMAGES.santorini,
+    tone: "sea",
+    x: 272,
+    y: 340,
   },
   {
-    href: "/contact",
-    title: "Advisory Support",
-    text: "Professional guidance at every stage, from first consultation to after-care.",
+    name: "Mykonos",
+    text: "World-famous destination with high rental returns.",
+    src: IMAGES.mykonos,
+    tone: "sunset",
+    x: 276,
+    y: 286,
+  },
+  {
+    name: "Crete",
+    text: "Natural beauty and a growing market.",
+    src: IMAGES.crete,
+    tone: "sea",
+    x: 226,
+    y: 392,
+  },
+  {
+    name: "Thessaloniki",
+    text: "A growing city with strong prospects.",
+    src: IMAGES.thessaloniki,
+    tone: "sky",
+    x: 214,
+    y: 84,
+  },
+  {
+    name: "Halkidiki",
+    text: "Stunning beaches and family-friendly areas.",
+    src: IMAGES.halkidiki,
+    tone: "sea",
+    x: 252,
+    y: 104,
   },
 ];
 
-const steps = [
-  { title: "Consultation", text: "We learn about your goals, timeline, and requirements." },
-  { title: "Selection", text: "We present options that fit your objectives and budget." },
-  { title: "Application", text: "We coordinate documents and work with qualified partners." },
-  { title: "Completion", text: "We support you through to completion and beyond." },
+const strip: { icon: IconName; t: string }[] = [
+  { icon: "sun", t: "Sunny climate" },
+  { icon: "diamond", t: "World-class lifestyle" },
+  { icon: "family", t: "Family friendly" },
+  { icon: "chart", t: "Long-term investment" },
 ];
 
-const reasons = [
-  { title: "Transparent", text: "Clear information on options, costs, and timelines, with no hidden surprises." },
-  { title: "Tailored", text: "Every recommendation is built around your own circumstances." },
-  { title: "End-to-end", text: "One team from first enquiry through to after-care." },
-];
-
-const faqs = [
-  {
-    q: "What is the minimum investment required?",
-    a: "It depends on the market and the programme. Contact us and we will outline the current options for your situation.",
-  },
-  {
-    q: "How long does the process take?",
-    a: "Timelines vary by country and application type. We will give you a realistic estimate during your consultation.",
-  },
-  {
-    q: "Does property investment guarantee residency?",
-    a: "No. Requirements and approvals are set by each country's authorities. We provide guidance, but outcomes cannot be guaranteed.",
-  },
-  {
-    q: "Do you offer support after purchase?",
-    a: "Yes. We can assist with after-care, including coordination with local professionals.",
-  },
+const ribbon = [
+  "Live",
+  "Invest",
+  "Build your future",
+  "Greece property & residency opportunities",
+  "Live",
+  "Invest",
+  "Build your future",
+  "Greece property & residency opportunities",
 ];
 
 export default function Home() {
   return (
     <>
+      <FxStyles />
       <Hero />
 
-      {/* Stats */}
-      <section className="border-b border-stone-200 bg-white">
-        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-8 px-6 py-12 md:grid-cols-4">
-          {stats.map((s) => (
-            <div key={s.label} className="text-center">
-              <p className="font-(family-name:--font-display) text-4xl font-light text-[#b8935a] md:text-5xl">
-                {s.value}
-              </p>
-              <p className="mt-2 text-xs uppercase tracking-[0.15em] text-slate-500">
-                {s.label}
-              </p>
-            </div>
-          ))}
+      <div style={palette} className="bg-(--cream) text-(--navy)">
+        {/* ───────── RIBBON ───────── */}
+        <div className="bg-linear-to-r from-(--gold) via-(--gold-light) to-(--gold) py-4 text-(--navy)">
+          <Marquee items={ribbon} />
         </div>
-      </section>
 
-      {/* Services */}
-      <section className="mx-auto max-w-6xl px-6 py-24">
-        <p className="text-xs font-medium uppercase tracking-[0.3em] text-[#b8935a]">
-          What We Do
-        </p>
-        <h2 className="mt-4 max-w-2xl font-(family-name:--font-display) text-4xl font-light text-slate-900 md:text-5xl">
-          Our Services
-        </h2>
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {services.map((c) => (
-            <Link
-              key={c.title}
-              href={c.href}
-              className="border border-stone-200 bg-white p-8 transition hover:border-[#b8935a]"
-            >
-              <h3 className="font-(family-name:--font-display) text-2xl font-light text-slate-900">
-                {c.title}
-              </h3>
-              <p className="mt-3 leading-relaxed text-slate-600">{c.text}</p>
-              <span className="mt-6 inline-block text-xs font-medium uppercase tracking-[0.15em] text-[#b8935a]">
-                Learn more →
-              </span>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* How it works */}
-      <section className="bg-slate-900 py-24 text-stone-100">
-        <div className="mx-auto max-w-6xl px-6">
-          <p className="text-xs font-medium uppercase tracking-[0.3em] text-[#b8935a]">
-            Our Process
-          </p>
-          <h2 className="mt-4 font-(family-name:--font-display) text-4xl font-light md:text-5xl">
-            How It Works
-          </h2>
-          <div className="mt-14 grid gap-10 md:grid-cols-4">
-            {steps.map((s, i) => (
-              <div key={s.title} className="border-t border-white/20 pt-6">
-                <span className="font-(family-name:--font-display) text-5xl font-light text-[#b8935a]">
-                  0{i + 1}
-                </span>
-                <h3 className="mt-4 text-lg font-medium">{s.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-400">
-                  {s.text}
+        {/* ───────── ABOUT / INTRO ───────── */}
+        <section className="relative overflow-hidden bg-(--cream)">
+          <Paper />
+          <div className="relative mx-auto grid max-w-6xl items-center gap-16 px-6 py-24 md:py-32 lg:grid-cols-12">
+            <div className="lg:col-span-6">
+              <Reveal>
+                <p className="flex items-center gap-4 text-[11px] font-semibold uppercase tracking-[0.35em] text-(--gold-dark)">
+                  <span className="h-px w-10 bg-(--gold)" />
+                  About Aurevon
                 </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Why choose us */}
-      <section className="mx-auto max-w-6xl px-6 py-24">
-        <p className="text-xs font-medium uppercase tracking-[0.3em] text-[#b8935a]">
-          Why Aurevon
-        </p>
-        <h2 className="mt-4 max-w-2xl font-(family-name:--font-display) text-4xl font-light text-slate-900 md:text-5xl">
-          A Considered Approach
-        </h2>
-        <div className="mt-12 grid gap-10 md:grid-cols-3">
-          {reasons.map((r) => (
-            <div key={r.title}>
-              <div className="mb-5 h-0.5 w-10 bg-[#b8935a]" />
-              <h3 className="text-xl font-medium text-slate-900">{r.title}</h3>
-              <p className="mt-2 leading-relaxed text-slate-600">{r.text}</p>
+              </Reveal>
+              <h2 className="mt-6 font-serif text-4xl font-bold uppercase leading-[1.05] tracking-tight md:text-6xl">
+                <Words text="More than a property" className="block" />
+                <Words
+                  text="a lifestyle you deserve"
+                  className="block"
+                  delay={350}
+                  wordClass="bg-linear-to-b from-(--gold-light) to-(--gold-dark) bg-clip-text text-transparent"
+                />
+              </h2>
+              <Reveal delay={200}>
+                <p className="mt-8 max-w-lg text-lg leading-relaxed text-(--navy)/80">
+                  Own a home in one of Europe’s most beautiful countries and
+                  enjoy a lifestyle of sun, sea, culture and opportunity.
+                </p>
+              </Reveal>
+              <Reveal delay={350}>
+                <p className="mt-5 max-w-lg leading-relaxed text-(--navy)/70">
+                  Aurevon Global Partners connects Philippine investors and
+                  families with selected property opportunities in Greece,
+                  with practical coordination and professional introductions
+                  along the way.
+                </p>
+              </Reveal>
             </div>
-          ))}
-        </div>
-      </section>
 
-      {/* FAQ */}
-      <section className="border-t border-stone-200 bg-white py-24">
-        <div className="mx-auto max-w-3xl px-6">
-          <p className="text-xs font-medium uppercase tracking-[0.3em] text-[#b8935a]">
-            FAQ
-          </p>
-          <h2 className="mt-4 font-(family-name:--font-display) text-4xl font-light text-slate-900 md:text-5xl">
-            Common Questions
-          </h2>
-          <div className="mt-10 divide-y divide-stone-200 border-y border-stone-200">
-            {faqs.map((f) => (
-              <details key={f.q} className="group py-5">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-slate-900">
-                  {f.q}
-                  <span className="text-2xl text-[#b8935a] transition-transform group-open:rotate-45">
-                    +
-                  </span>
-                </summary>
-                <p className="mt-3 leading-relaxed text-slate-600">{f.a}</p>
-              </details>
-            ))}
+            {/* floating collage: each piece moves at its own speed */}
+            <div className="relative mx-auto h-[560px] w-full max-w-md lg:col-span-6 lg:max-w-none">
+              <Parallax speed={0.1} className="absolute right-0 top-0 w-[58%]">
+                <Reveal variant="wipe-up" duration={1100}>
+                  <Tilt>
+                    <Ph
+                      src={IMAGES.intro1}
+                      label="Whitewashed villa"
+                      tone="sunset"
+                      arch
+                      priority
+                      className="aspect-3/4 w-full"
+                    />
+                  </Tilt>
+                </Reveal>
+              </Parallax>
+
+              <Parallax
+                speed={-0.06}
+                className="absolute bottom-0 left-0 w-[56%]"
+              >
+                <Reveal variant="left" delay={250}>
+                  <Tilt max={6}>
+                    <Ph
+                      src={IMAGES.pool}
+                      label="Terrace and pool"
+                      tone="pool"
+                      speed={0.04}
+                      className="aspect-4/3 w-full"
+                    />
+                  </Tilt>
+                </Reveal>
+              </Parallax>
+
+              <Parallax speed={0.2} className="absolute left-[6%] top-[6%] w-[30%]">
+                <Reveal variant="zoom" delay={500}>
+                  <div
+                    className="fx-anim"
+                    style={{ animation: "fx-float 7s ease-in-out infinite" }}
+                  >
+                    <Ph
+                      src={IMAGES.stone}
+                      label="Stone detail"
+                      tone="stone"
+                      speed={0.03}
+                      className="aspect-square w-full"
+                    />
+                  </div>
+                </Reveal>
+              </Parallax>
+
+              {/* rotating seal */}
+              <div
+                aria-hidden
+                className="absolute left-[42%] top-[50%] z-10 flex h-32 w-32 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-(--navy) shadow-2xl"
+              >
+                <svg
+                  viewBox="0 0 120 120"
+                  className="fx-anim absolute inset-0 h-full w-full"
+                  style={{ animation: "fx-spin 22s linear infinite" }}
+                >
+                  <defs>
+                    <path
+                      id="fx-seal"
+                      d="M60 60 m-44 0 a44 44 0 1 1 88 0 a44 44 0 1 1 -88 0"
+                    />
+                  </defs>
+                  <text
+                    fontSize="9.5"
+                    letterSpacing="3.2"
+                    className="fill-(--gold-light) font-semibold uppercase"
+                  >
+                    <textPath href="#fx-seal">
+                      Live · Invest · Build your future ·
+                    </textPath>
+                  </text>
+                </svg>
+                <Icon name="home" className="h-8 w-8 text-(--gold-light)" />
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Final CTA */}
-      <section className="bg-slate-900 px-6 py-24 text-center text-stone-100">
-        <h2 className="mx-auto max-w-2xl font-(family-name:--font-display) text-4xl font-light md:text-5xl">
-          Ready to Discuss Your Requirements?
-        </h2>
-        <p className="mx-auto mt-5 max-w-xl text-slate-300">
-          Speak with our team for an initial, no-obligation conversation.
-        </p>
-        <Link
-          href="/contact"
-          className="mt-10 inline-block border border-[#b8935a] bg-[#b8935a] px-8 py-4 text-xs font-medium uppercase tracking-[0.15em] text-slate-900 hover:bg-transparent hover:text-[#b8935a]"
+        {/* ───────── WHY GREECE · pinned scroll story ───────── */}
+        <LifestyleStory features={features} />
+
+        {/* ───────── PRIME LOCATIONS · navy ───────── */}
+        <div className="bg-(--paper)">
+          <Wave />
+        </div>
+        <section
+          className="relative -mt-px overflow-hidden bg-(--navy) text-white"
+          style={glow("50% 0%", 0.25)}
         >
-          Get in Touch
-        </Link>
-      </section>
+          <div className="relative mx-auto max-w-6xl px-6 pb-20 pt-8 md:pb-28">
+            <Reveal>
+              <Title
+                dark
+                center
+                title="Prime locations in Greece"
+                sub="Iconic cities. Stunning islands. Exceptional opportunities."
+              />
+            </Reveal>
+            <div className="mt-16">
+              <LocationExplorer places={places} />
+            </div>
+
+            {/* quick facts */}
+            <ul className="mt-24 grid grid-cols-2 gap-y-10 border-t border-(--gold)/30 pt-12 md:grid-cols-4">
+              {strip.map((s, i) => (
+                <li
+                  key={s.t}
+                  className="md:border-l md:border-(--gold)/30 md:first:border-l-0"
+                >
+                  <Reveal delay={i * 130}>
+                    <Tilt className="flex flex-col items-center gap-4 px-4 text-center">
+                      <span
+                        className="fx-anim block"
+                        style={{
+                          animation: `fx-float 6s ease-in-out ${i * 0.6}s infinite`,
+                        }}
+                      >
+                        <Icon
+                          name={s.icon}
+                          className="h-10 w-10 text-(--gold-light)"
+                        />
+                      </span>
+                      <p className="max-w-[14ch] text-[11px] font-semibold uppercase tracking-[0.22em] text-white/90">
+                        {s.t}
+                      </p>
+                    </Tilt>
+                  </Reveal>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* ───────── FINALE · full-bleed photo ───────── */}
+        <section className="relative isolate flex min-h-[85vh] items-end overflow-hidden bg-(--navy-deep)">
+          <div className="absolute inset-0 -z-10">
+            <Ph
+              bare
+              src={IMAGES.finale}
+              label="Terrace pool at sunset"
+              tone="pool"
+              speed={0.12}
+              sizes="100vw"
+              className="h-full w-full"
+            />
+          </div>
+          <div
+            aria-hidden
+            className="absolute inset-0 -z-10 bg-linear-to-b from-(--navy) via-(--navy)/10 to-(--navy-deep)/90"
+          />
+          <div className="relative mx-auto w-full max-w-6xl px-6 pb-20 pt-40 md:pb-28">
+            <Reveal variant="wipe" duration={1200}>
+              <span className="block h-px w-24 bg-(--gold-light)" />
+            </Reveal>
+            <blockquote className="mt-8 max-w-3xl font-serif text-4xl italic leading-tight text-white md:text-6xl">
+              <Words
+                text="Invest in a place where every day feels like a holiday."
+                step={90}
+              />
+            </blockquote>
+            <Reveal delay={700}>
+              <p className="mt-8 text-xs font-semibold uppercase tracking-[0.4em] text-(--gold-light)">
+                Aurevon Global Partners
+              </p>
+            </Reveal>
+          </div>
+        </section>
+      </div>
     </>
   );
 }

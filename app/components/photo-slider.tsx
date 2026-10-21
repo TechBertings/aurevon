@@ -11,11 +11,12 @@ import Image from "next/image";
 
 type Photo = { src: string; alt: string };
 
-const GOLD = "#b8935a";
+/* Colors (--gold, --navy) are set on <main> in the page file */
+
 /* EDIT HERE: how long each picture stays before sliding (milliseconds) */
 const AUTOPLAY_MS = 4000;
 /* EDIT HERE: most pictures shown at once on desktop / tablet */
-const MAX_VISIBLE_DESKTOP = 4;
+const MAX_VISIBLE_DESKTOP = 3;
 const MAX_VISIBLE_TABLET = 2;
 /* gap-3 = 0.75rem */
 const GAP_REM = 0.75;
@@ -64,14 +65,18 @@ const slideWidth = (v: number) =>
   `calc((100% - ${(v - 1) * GAP_REM}rem) / ${v})`;
 
 /* Auto-sliding photo strip: always keeps at least one photo hidden
-   (3 photos -> 2 visible, 4 -> 3, 5 -> 4 ...) and slides one at a time */
+   (3 photos -> 2 visible, 4 -> 3, 5 -> 4 ...) and slides one at a time.
+   tone = the section background it sits on: "navy" (default) or "gold". */
 export default function PhotoSlider({
   photos,
   square = false,
+  tone = "navy",
 }: {
   photos: Photo[];
   square?: boolean;
+  tone?: "navy" | "gold";
 }) {
+  const onGold = tone === "gold";
   const n = photos.length;
   const desktop = n <= 1 ? 1 : Math.min(MAX_VISIBLE_DESKTOP, n - 1);
   const tablet = n <= 1 ? 1 : Math.min(MAX_VISIBLE_TABLET, n - 1);
@@ -173,15 +178,33 @@ export default function PhotoSlider({
     return () => clearInterval(id);
   }, [inView, paused, next]);
 
-  const widths = {
-    "--w-base": slideWidth(n <= 1 ? 1 : 1),
+  /* Slide widths exposed as CSS variables */
+  const vars = {
+    "--w-base": slideWidth(1),
     "--w-sm": slideWidth(tablet),
     "--w-lg": slideWidth(desktop),
   } as CSSProperties;
 
+  /* On navy: white outline, gold on hover.  On gold: navy outline, navy on hover. */
+  const arrowClass = `flex h-10 w-10 items-center justify-center border transition focus-visible:outline-2 focus-visible:outline-offset-2 ${
+    onGold
+      ? "border-(--navy)/50 text-(--navy) hover:border-(--navy) hover:bg-(--navy) hover:text-white focus-visible:outline-(--navy)"
+      : "border-(--gold)/60 text-(--gold) hover:border-(--gold) hover:bg-(--gold) hover:text-(--navy) focus-visible:outline-(--gold)"
+  }`;
+
+  const dotClass = (isActive: boolean) =>
+    `h-0.75 transition-all duration-300 ${
+      isActive
+        ? `w-10 ${onGold ? "bg-(--navy)" : "bg-(--gold)"}`
+        : onGold
+          ? "w-5 bg-(--navy)/30 hover:bg-(--navy)/60"
+          : "w-5 bg-(--gold)/30 hover:bg-(--gold)/60"
+    }`;
+
   return (
     <div
       ref={wrapRef}
+      style={vars}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}
@@ -192,8 +215,7 @@ export default function PhotoSlider({
       <div
         ref={trackRef}
         onScroll={onScroll}
-        style={widths}
-        className="relative flex snap-x snap-mandatory gap-3 overflow-x-auto scrollbar-width:none [&::-webkit-scrollbar]:hidden"
+        className="relative flex snap-x snap-mandatory gap-3 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {photos.map((p) => (
           <div
@@ -222,22 +244,28 @@ export default function PhotoSlider({
                 type="button"
                 aria-label={`Go to position ${i + 1}`}
                 onClick={() => slideTo(i)}
-                className={`h-1 transition-all duration-300 ${
-                  i === active ? "w-8" : "w-4 bg-slate-300 hover:bg-slate-400"
-                }`}
-                style={i === active ? { background: GOLD } : undefined}
+                className={dotClass(i === active)}
               />
             ))}
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex items-center gap-2">
+            <span className={`mr-3 font-serif text-sm tracking-widest ${onGold ? "text-(--navy)" : "text-(--gold-light)"}`}>
+              {String(active + 1).padStart(2, "0")} / {String(stops).padStart(2, "0")}
+            </span>
             <button
               type="button"
               aria-label="Previous photo"
               onClick={prev}
-              className="flex h-10 w-10 items-center justify-center border border-slate-300 text-slate-700 transition hover:border-[#b8935a] hover:text-[#b8935a]"
+              className={arrowClass}
             >
-              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <svg
+                viewBox="0 0 24 24"
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              >
                 <path d="M15 5l-7 7 7 7" />
               </svg>
             </button>
@@ -245,9 +273,15 @@ export default function PhotoSlider({
               type="button"
               aria-label="Next photo"
               onClick={next}
-              className="flex h-10 w-10 items-center justify-center border border-slate-300 text-slate-700 transition hover:border-[#b8935a] hover:text-[#b8935a]"
+              className={arrowClass}
             >
-              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <svg
+                viewBox="0 0 24 24"
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              >
                 <path d="M9 5l7 7-7 7" />
               </svg>
             </button>

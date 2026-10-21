@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, type CSSProperties } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -10,10 +10,16 @@ type NavLink = {
   children?: { href: string; label: string }[];
 };
 
+/* EDIT HERE: brand palette (keep in sync with the page files) */
+const palette = {
+  "--gold": "#b98a45",
+  "--navy": "#0f1b3d",
+} as CSSProperties;
+
 /* EDIT HERE: add more links when pages are ready */
 const links: NavLink[] = [
   { href: "/", label: "Home" },
-  { href: "/#about", label: "About" },
+  { href: "/about", label: "About" },
   {
     href: "/apartments",
     label: "Apartments",
@@ -27,18 +33,10 @@ const links: NavLink[] = [
 ];
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pathname = usePathname();
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     if (!menuOpen && !openDropdown) return;
@@ -65,8 +63,6 @@ export default function Navbar() {
     };
   }, []);
 
-  const solid = scrolled || menuOpen || openDropdown !== null;
-
   const closeAll = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     setMenuOpen(false);
@@ -87,13 +83,16 @@ export default function Navbar() {
     closeTimer.current = setTimeout(() => setOpenDropdown(null), 120);
   };
 
+  /* Highlights the section you are currently in (gold text) */
+  const isActive = (l: NavLink) =>
+    l.href === "/"
+      ? pathname === "/"
+      : !l.href.includes("#") && pathname.startsWith(l.href);
+
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-30 transition-all duration-300 ${
-        solid
-          ? "bg-white/95 shadow-sm backdrop-blur"
-          : "bg-linear-to-b from-black/40 to-transparent"
-      }`}
+      style={palette}
+      className="fixed inset-x-0 top-0 z-30 border-b border-(--gold)/40 bg-white shadow-sm"
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3">
         <Link href="/" className="block" onClick={closeAll}>
@@ -103,7 +102,7 @@ export default function Navbar() {
             width={200}
             height={60}
             priority
-            className="h-12 w-auto"
+            className="h-14 w-auto"
           />
         </Link>
 
@@ -121,34 +120,51 @@ export default function Navbar() {
                   onFocus={() => l.children && openDrop(l.href)}
                   onBlur={(e) => {
                     // close only if focus moved outside this item
-                    if (l.children && !e.currentTarget.contains(e.relatedTarget as Node)) {
+                    if (
+                      l.children &&
+                      !e.currentTarget.contains(e.relatedTarget as Node)
+                    ) {
                       setOpenDropdown(null);
                     }
                   }}
                 >
-                  <Link
-                    href={l.href}
-                    onClick={closeAll}
-                    className={`flex items-center gap-1.5 py-2 text-xs font-medium uppercase tracking-[0.15em] transition-colors hover:text-[#b8935a] ${
-                      solid ? "text-slate-700" : "text-white"
-                    }`}
-                  >
-                    {l.label}
-                    {l.children && (
-                      <svg
-                        aria-hidden="true"
-                        viewBox="0 0 10 6"
-                        className={`h-1.5 w-2.5 transition-transform ${
-                          isOpen ? "rotate-180" : ""
-                        }`}
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                      >
-                        <path d="M1 1l4 4 4-4" />
-                      </svg>
-                    )}
-                  </Link>
+             {(() => {
+  const cls = `flex items-center gap-1.5 py-2 text-xs font-medium uppercase tracking-[0.15em] transition-colors hover:text-(--gold) ${
+    isActive(l) ? "text-(--gold)" : "text-(--navy)"
+  }`;
+  const inner = (
+    <>
+      {l.label}
+      {l.children && (
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 10 6"
+          className={`h-1.5 w-2.5 transition-transform ${isOpen ? "rotate-180" : ""}`}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        >
+          <path d="M1 1l4 4 4-4" />
+        </svg>
+      )}
+    </>
+  );
+  return l.children ? (
+    <button
+      type="button"
+      aria-haspopup="true"
+      aria-expanded={isOpen}
+      onClick={() => setOpenDropdown(isOpen ? null : l.href)}
+      className={cls}
+    >
+      {inner}
+    </button>
+  ) : (
+    <Link href={l.href} onClick={closeAll} className={cls}>
+      {inner}
+    </Link>
+  );
+})()}
 
                   {/* Dropdown */}
                   {l.children && (
@@ -159,13 +175,17 @@ export default function Navbar() {
                           : "invisible pointer-events-none opacity-0"
                       }`}
                     >
-                      <ul className="border border-slate-200 bg-white py-2 shadow-lg">
+                      <ul className="border border-(--gold)/40 border-t-2 border-t-(--gold) bg-white py-2 shadow-lg">
                         {l.children.map((c) => (
                           <li key={c.href}>
                             <Link
                               href={c.href}
                               onClick={closeAll}
-                              className="block px-5 py-2.5 text-xs font-medium uppercase tracking-[0.15em] text-slate-700 transition-colors hover:bg-slate-50 hover:text-[#b8935a]"
+                              className={`block px-5 py-2.5 text-xs font-medium uppercase tracking-[0.15em] transition-colors hover:bg-(--navy) hover:text-white ${
+                                pathname === c.href
+                                  ? "text-(--gold)"
+                                  : "text-(--navy)"
+                              }`}
                             >
                               {c.label}
                             </Link>
@@ -182,11 +202,7 @@ export default function Navbar() {
           <Link
             href="/contact"
             onClick={closeAll}
-            className={`border px-5 py-2.5 text-xs font-medium uppercase tracking-[0.15em] transition ${
-              solid
-                ? "border-slate-800 text-slate-800 hover:bg-slate-800 hover:text-white"
-                : "border-white/70 text-white hover:bg-white hover:text-slate-900"
-            }`}
+            className="border border-(--navy) bg-(--navy) px-5 py-2.5 text-xs font-medium uppercase tracking-[0.15em] text-white transition hover:border-(--gold) hover:bg-(--gold) hover:text-(--navy)"
           >
             Inquire Now
           </Link>
@@ -197,38 +213,57 @@ export default function Navbar() {
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((v) => !v)}
-            className={`flex h-10 w-10 flex-col items-center justify-center gap-1.5 md:hidden ${
-              solid ? "text-slate-800" : "text-white"
-            }`}
+            className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 text-(--navy) md:hidden"
           >
-            <span className={`h-px w-6 bg-current transition ${menuOpen ? "translate-y-7px rotate-45" : ""}`} />
-            <span className={`h-px w-6 bg-current transition ${menuOpen ? "opacity-0" : ""}`} />
-            <span className={`h-px w-6 bg-current transition ${menuOpen ? "-translate-y-7px -rotate-45" : ""}`} />
+            <span
+              className={`h-px w-6 bg-current transition ${
+                menuOpen ? "translate-y-[7px] rotate-45" : ""
+              }`}
+            />
+            <span
+              className={`h-px w-6 bg-current transition ${
+                menuOpen ? "opacity-0" : ""
+              }`}
+            />
+            <span
+              className={`h-px w-6 bg-current transition ${
+                menuOpen ? "-translate-y-[7px] -rotate-45" : ""
+              }`}
+            />
           </button>
         </div>
       </nav>
 
       {/* Mobile panel */}
       {menuOpen && (
-        <div className="border-t border-slate-200 bg-white md:hidden">
+        <div className="border-t border-(--gold)/30 bg-white md:hidden">
           <ul className="mx-auto max-w-6xl px-6 py-4">
             {links.map((l) => (
-              <li key={l.href} className="border-b border-slate-100 last:border-0">
+              <li
+                key={l.href}
+                className="border-b border-(--navy)/10 last:border-0"
+              >
                 <Link
                   href={l.href}
                   onClick={closeAll}
-                  className="block py-3 text-xs font-medium uppercase tracking-[0.15em] text-slate-700"
+                  className={`block py-3 text-xs font-medium uppercase tracking-[0.15em] ${
+                    isActive(l) ? "text-(--gold)" : "text-(--navy)"
+                  }`}
                 >
                   {l.label}
                 </Link>
                 {l.children && (
-                  <ul className="mb-2 ml-3 border-l border-slate-200 pl-4">
+                  <ul className="mb-2 ml-3 border-l border-(--gold)/50 pl-4">
                     {l.children.map((c) => (
                       <li key={c.href}>
                         <Link
                           href={c.href}
                           onClick={closeAll}
-                          className="block py-2.5 text-xs font-medium uppercase tracking-[0.15em] text-slate-500 hover:text-[#b8935a]"
+                          className={`block py-2.5 text-xs font-medium uppercase tracking-[0.15em] hover:text-(--gold) ${
+                            pathname === c.href
+                              ? "text-(--gold)"
+                              : "text-(--navy)/70"
+                          }`}
                         >
                           {c.label}
                         </Link>
