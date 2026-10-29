@@ -23,12 +23,15 @@ const links: NavLink[] = [
   {
     href: "/apartments",
     label: "Apartments",
-    children: [
-      { href: "/apartments/seizani-loft", label: "Seizani Loft" },
-      { href: "/apartments/santa_sophia", label: "Santa Sophia" },
-      { href: "/apartments/pythagoras", label: "Pythagoras" },
-      { href: "/apartments/piraeus-olynthou", label: "Piraeus Olynthou" },
-    ],
+   children: [
+  { href: "/apartments/seizani_loft", label: "Seizani Loft" },
+  { href: "/apartments/santa_sophia", label: "Santa Sophia" },
+  { href: "/apartments/pythagoras", label: "Pythagoras" },
+  { href: "/apartments/piraeus_olynthou", label: "Piraeus Olynthou" },
+  { href: "/apartments/drapetsona", label: "Drapetsona" },
+  { href: "/apartments/sea-view-villa", label: "Sea View Villa" },
+  { href: "/apartments/villa-porto-rafti", label: "Villa Porto Rafti" },
+],
   },
 ];
 

@@ -18,8 +18,28 @@ const palette = {
 const LINKS = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
+  { label: "Apartments", href: "/apartments" },
   { label: "Contact", href: "/contact" },
 ];
+
+/* EDIT HERE: same routes as the navbar dropdown */
+const PROPERTIES = [
+  { label: "Seizani Loft", href: "/apartments/seizani_loft" },
+  { label: "Santa Sophia", href: "/apartments/santa_sophia" },
+  { label: "Pythagoras", href: "/apartments/pythagoras" },
+  { label: "Piraeus Olynthou", href: "/apartments/piraeus_olynthou" },
+  { label: "Drapetsona", href: "/apartments/drapetsona" },
+  { label: "Sea View Villa", href: "/apartments/sea-view-villa" },
+  { label: "Villa Porto Rafti", href: "/apartments/villa-porto-rafti" },
+];
+
+/* EDIT HERE: contact details */
+const PHONES = [
+  { display: "+49 160 9243 2179", href: "tel:+4916092432179" },
+  { display: "+49 151 2404 9188", href: "tel:+4915124049188" },
+];
+const EMAIL = "invest@aurevon-globalpartners.com";
+const SITE = "www.aurevon-globalpartners.com";
 
 /* EDIT HERE: words that scroll across the top of the footer */
 const RIBBON = ["Live", "Invest", "Build your future", "Greece"];
@@ -29,6 +49,26 @@ const meander: CSSProperties = {
   backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='14'><path d='M0 13V1H13V10H5V5H9M13 1H18' fill='none' stroke='%23b98a45' stroke-width='1.4'/></svg>")`,
   backgroundRepeat: "repeat-x",
 };
+
+function Heading({ children }: { children: string }) {
+  return (
+    <div>
+      <h3 className="text-[11px] font-semibold uppercase tracking-[0.3em] text-(--gold-light)">
+        {children}
+      </h3>
+      <span className="mt-3 block h-px w-10 bg-linear-to-r from-(--gold) to-transparent" />
+    </div>
+  );
+}
+
+const navLink =
+  "group inline-flex items-center gap-3 text-white/80 transition hover:text-(--gold-light)";
+const Dash = () => (
+  <span
+    aria-hidden
+    className="h-px w-4 shrink-0 bg-(--gold) transition-all duration-300 group-hover:w-8"
+  />
+);
 
 export default function Footer() {
   const [year, setYear] = useState<number | null>(null);
@@ -80,27 +120,35 @@ export default function Footer() {
         />
       </div>
 
-      <div className="relative mx-auto grid max-w-6xl gap-12 px-6 py-14 md:grid-cols-12 md:items-start">
-        <Reveal3D variant="flipLeft" className="md:col-span-6">
-          <p className="max-w-sm text-sm leading-relaxed text-white/70">
-            Greece property and residency opportunities. Live, invest, build
-            your future.
+      {/* columns */}
+      <div className="relative mx-auto grid max-w-6xl gap-12 px-6 py-16 md:grid-cols-12 md:gap-10 md:py-20">
+        <Reveal3D variant="flipLeft" className="md:col-span-4">
+          <p className="font-serif text-xl uppercase leading-snug tracking-wide text-white md:text-2xl">
+            Live. Invest.
+            <br />
+            <span className="text-(--gold-light)">Build your future.</span>
           </p>
+          <p className="mt-5 max-w-xs text-sm leading-relaxed text-white/70">
+            Greece property and residency opportunities.
+          </p>
+          <Tilt3D className="mt-8 inline-block">
+            <Link
+              href="/contact"
+              className="inline-block bg-linear-to-b from-(--gold-light) to-(--gold) px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.18em] text-(--navy) shadow-lg transition hover:brightness-110"
+            >
+              Inquire now
+            </Link>
+          </Tilt3D>
         </Reveal3D>
 
-        <Reveal3D variant="rise" delay={150} className="md:col-span-3">
+        <Reveal3D variant="rise" delay={100} className="md:col-span-2">
+          <Heading>Explore</Heading>
           <nav aria-label="Footer">
-            <ul className="space-y-3 text-sm">
+            <ul className="mt-6 space-y-3 text-sm">
               {LINKS.map((l) => (
                 <li key={l.href}>
-                  <Link
-                    href={l.href}
-                    className="group inline-flex items-center gap-3 text-white/80 transition hover:text-(--gold-light)"
-                  >
-                    <span
-                      aria-hidden
-                      className="h-px w-4 bg-(--gold) transition-all duration-300 group-hover:w-8"
-                    />
+                  <Link href={l.href} className={navLink}>
+                    <Dash />
                     {l.label}
                   </Link>
                 </li>
@@ -109,20 +157,56 @@ export default function Footer() {
           </nav>
         </Reveal3D>
 
+        <Reveal3D variant="rise" delay={200} className="md:col-span-3">
+          <Heading>Apartments</Heading>
+          <ul className="mt-6 space-y-3 text-sm">
+            {PROPERTIES.map((p) => (
+              <li key={p.href}>
+                <Link href={p.href} className={navLink}>
+                  <Dash />
+                  {p.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Reveal3D>
+
         <Reveal3D variant="flipRight" delay={300} className="md:col-span-3">
-          <Tilt3D className="inline-block">
-            <Link
-              href="/contact"
-              className="inline-block bg-linear-to-b from-(--gold-light) to-(--gold) px-6 py-3 text-xs font-medium uppercase tracking-[0.15em] text-(--navy) shadow-lg transition hover:brightness-110"
-            >
-              Inquire now
-            </Link>
-          </Tilt3D>
+          <Heading>Contact</Heading>
+          <ul className="mt-6 space-y-3 text-sm text-white/80">
+            {PHONES.map((p) => (
+              <li key={p.href}>
+                <a href={p.href} className="transition hover:text-(--gold-light)">
+                  {p.display}
+                </a>
+              </li>
+            ))}
+            <li>
+              <a
+                href={`mailto:${EMAIL}`}
+                className="break-all transition hover:text-(--gold-light)"
+              >
+                {EMAIL}
+              </a>
+            </li>
+            <li>
+              <a
+                href={`https://${SITE}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="break-all transition hover:text-(--gold-light)"
+              >
+                {SITE}
+              </a>
+            </li>
+          </ul>
         </Reveal3D>
       </div>
 
-      <div className="relative mx-auto max-w-6xl border-t border-white/15 px-6 py-8 text-xs text-white/65">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+      {/* legal + back to top */}
+      <div className="relative mx-auto max-w-6xl px-6 pb-10">
+        <span className="block h-px w-full bg-linear-to-r from-transparent via-(--gold)/50 to-transparent" />
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-4 text-xs text-white/65">
           <p>© {year ?? ""} Aurevon Global Partners. All rights reserved.</p>
           <button
             type="button"
@@ -132,7 +216,7 @@ export default function Footer() {
             Back to top
           </button>
         </div>
-        <p className="mt-3 max-w-2xl leading-relaxed">
+        <p className="mt-4 max-w-2xl text-xs leading-relaxed text-white/55">
           The information on this website is general in nature and does not
           constitute legal, financial, or immigration advice. Residency
           outcomes depend on each country&apos;s requirements and are not

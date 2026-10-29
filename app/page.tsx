@@ -1,4 +1,4 @@
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import Hero from "./components/hero";
 import {
   FxStyles,
@@ -21,7 +21,8 @@ import {
   type Place,
 } from "./components/home-story";
 import { glow } from './components/glow';
-import PhotoSlider from "./components/photo-slider";
+
+
 
 /* EDIT HERE: brochure palette (same as About and Santa Sophia) */
 const palette = {
@@ -53,7 +54,15 @@ const IMAGES: Record<string, string | null> = {
   thessaloniki: "/images/thessaloniki.jpg" /* White Tower and waterfront */,
   halkidiki: "/images/halkidiki.jpg" /* beach and pine trees */,
   finale: "/images/finale.jpg" /* terrace pool at sunset, wide */,
+  /* NEW: featured properties + why-choose-us photo */
+  p1: null /* property 1, vertical */,
+  p2: null /* property 2, vertical */,
+  p3: null /* property 3, vertical */,
+  expert: null /* interior at night, vertical */,
 };
+
+/* NEW — EDIT HERE: contact details */
+const CONTACT = { phone: "+63 900 000 0000", email: "hello@aurevon.com" };
 
 const features: Feature[] = [
   {
@@ -160,6 +169,110 @@ const ribbon = [
   "Greece property & residency opportunities",
 ];
 
+/* ───────── NEW: services, featured properties, stats ───────── */
+function Svg({ children }: { children: ReactNode }) {
+  return (
+    <svg
+      viewBox="0 0 48 48"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="h-10 w-10 text-(--gold)"
+      aria-hidden
+    >
+      {children}
+    </svg>
+  );
+}
+
+const services: { t: string; d: string; icon: ReactNode }[] = [
+  {
+    t: "Selected Properties",
+    d: "Curated homes across Greece’s best locations.",
+    icon: (
+      <Svg>
+        <path d="M14 8h20l8 11-18 21L6 19l8-11Z" />
+        <path d="M6 19h36M18 19l6 21 6-21M24 8l-4 11M24 8l4 11" />
+      </Svg>
+    ),
+  },
+  {
+    t: "Virtual Viewings",
+    d: "See properties from Manila, wherever you are.",
+    icon: (
+      <Svg>
+        <rect x="5" y="15" width="38" height="18" rx="7" />
+        <path d="M18 33c2-4 10-4 12 0" />
+        <circle cx="24" cy="24" r="2" />
+      </Svg>
+    ),
+  },
+  {
+    t: "Personal Coordination",
+    d: "One point of contact for a smooth journey.",
+    icon: (
+      <Svg>
+        <path d="M8 22 24 8l16 14v18H8V22Z" />
+        <path d="M19 40V28h10v12" />
+      </Svg>
+    ),
+  },
+  {
+    t: "Secure Transactions",
+    d: "Your privacy and safety come first.",
+    icon: (
+      <Svg>
+        <path d="M24 5 8 11v12c0 10 7 17 16 20 9-3 16-10 16-20V11L24 5Z" />
+        <path d="m17 24 5 5 9-10" />
+      </Svg>
+    ),
+  },
+];
+
+/* EDIT HERE: placeholder listings, replace with real ones */
+const properties = [
+  {
+    src: IMAGES.p1,
+    place: "Athens Riviera, Greece",
+    name: "Seafront Modern Villa",
+    spec: "5 Beds · 5 Baths · 520 m²",
+    price: "€2,450,000",
+    tone: "sunset" as const,
+  },
+  {
+    src: IMAGES.p2,
+    place: "Santorini, Greece",
+    name: "Caldera Cliff Residence",
+    spec: "3 Beds · 3 Baths · 280 m²",
+    price: "€1,875,000",
+    tone: "sea" as const,
+  },
+  {
+    src: IMAGES.p3,
+    place: "Halkidiki, Greece",
+    name: "Pine Bay Pool Villa",
+    spec: "4 Beds · 4 Baths · 340 m²",
+    price: "€985,000",
+    tone: "pool" as const,
+  },
+];
+
+
+
+
+/* EDIT HERE: placeholder numbers, replace with real ones */
+const stats = [
+  { n: "500+", l: "Happy clients" },
+  { n: "6", l: "Prime regions" },
+  { n: "120+", l: "Properties reviewed" },
+  { n: "10+", l: "Years of experience" },
+];
+
+const btnGold =
+  "inline-flex items-center justify-center gap-3 rounded-md bg-(--gold) px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.2em] text-(--navy-deep) transition hover:bg-(--gold-light) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--gold-light)";
+
 export default function Home() {
   return (
     <>
@@ -171,6 +284,35 @@ export default function Home() {
         <div className="bg-linear-to-r from-(--gold) via-(--gold-light) to-(--gold) py-4 text-(--navy)">
           <Marquee items={ribbon} />
         </div>
+
+        {/* ───────── NEW · EXCLUSIVE SERVICES ───────── */}
+        <section className="border-b border-(--gold)/15 bg-(--paper)">
+          <div className="mx-auto grid max-w-6xl gap-12 px-6 py-16 lg:grid-cols-12 lg:items-center">
+            <div className="lg:col-span-4 lg:border-r lg:border-(--gold)/30 lg:pr-10">
+              <Reveal>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-(--gold-dark)">
+                  Exclusive services
+                </p>
+                <h2 className="mt-4 font-serif text-3xl leading-tight md:text-4xl">
+                  Tailored for extraordinary living
+                </h2>
+              </Reveal>
+            </div>
+            <ul className="grid grid-cols-2 gap-8 lg:col-span-8 lg:grid-cols-4">
+              {services.map((s, i) => (
+                <li key={s.t}>
+                  <Reveal delay={i * 100}>
+                    {s.icon}
+                    <h3 className="mt-4 text-base font-medium">{s.t}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-(--navy)/70">
+                      {s.d}
+                    </p>
+                  </Reveal>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
 
         {/* ───────── ABOUT / INTRO ───────── */}
         <section className="relative overflow-hidden bg-(--cream)">
@@ -209,7 +351,7 @@ export default function Home() {
             </div>
 
             {/* floating collage: each piece moves at its own speed */}
-            <div className="relative mx-auto h-[560px] w-full max-w-md lg:col-span-6 lg:max-w-none">
+            <div className="relative mx-auto h-560p] w-full max-w-md lg:col-span-6 lg:max-w-none">
               <Parallax speed={0.1} className="absolute right-0 top-0 w-[58%]">
                 <Reveal variant="wipe-up" duration={1100}>
                   <Tilt>
@@ -294,7 +436,76 @@ export default function Home() {
         {/* ───────── WHY GREECE · pinned scroll story ───────── */}
         <LifestyleStory features={features} />
 
-        {/* ───────── PRIME LOCATIONS · navy ───────── */}
+        {/* ───────── NEW · FEATURED PROPERTIES ───────── */}
+        <section className="relative overflow-hidden bg-(--cream)">
+          <Paper />
+          <div className="relative mx-auto grid max-w-6xl gap-12 px-6 py-24 lg:grid-cols-12">
+            <div className="lg:col-span-3">
+              <Reveal>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-(--gold-dark)">
+                  Featured properties
+                </p>
+                <h2 className="mt-4 font-serif text-3xl leading-tight md:text-4xl">
+                  Discover our finest selection
+                </h2>
+                <span className="mt-6 block h-px w-14 bg-(--gold)" />
+                <p className="mt-6 text-sm leading-relaxed text-(--navy)/70">
+                  From island retreats to city residences, find a home that
+                  defines your lifestyle in Greece.
+                </p>
+                <a href="/properties" className={`${btnGold} mt-8`}>
+                  View all properties <span aria-hidden>→</span>
+                </a>
+              </Reveal>
+            </div>
+
+            <ul className="grid gap-6 sm:grid-cols-3 lg:col-span-9">
+              {properties.map((p, i) => (
+                <li key={p.name}>
+                  <Reveal delay={i * 120}>
+                    <Tilt max={4}>
+                      <article className="overflow-hidden rounded-xl border border-(--gold)/40 bg-(--navy)">
+                        <div className="relative aspect-3/4">
+                          <Ph
+                            bare
+                            src={p.src}
+                            label={p.name}
+                            tone={p.tone}
+                            speed={0.03}
+                            className="h-full w-full"
+                          />
+                          <div
+                            aria-hidden
+                            className="absolute inset-0 bg-linear-to-t from-(--navy-deep) via-(--navy-deep)/30 to-transparent"
+                          />
+                          <span className="absolute left-3 top-3 rounded bg-(--navy-deep)/70 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-(--gold-light)">
+                            Featured
+                          </span>
+                          <div className="absolute inset-x-0 bottom-0 p-5">
+                            <p className="text-[11px] uppercase tracking-[0.2em] text-white/70">
+                              {p.place}
+                            </p>
+                            <h3 className="mt-2 font-serif text-xl text-white">{p.name}</h3>
+                            <p className="mt-1 text-xs text-white/70">
+                              {p.spec}
+                            </p>
+                            <p className="mt-4 font-serif text-2xl text-(--gold-light)">
+                              {p.price}
+                            </p>
+                          </div>
+                        </div>
+                      </article>
+                    </Tilt>
+                  </Reveal>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+
+
+        {/* ───────── PRIME LOCATIONS ───────── */}
         <div className="bg-(--paper)">
           <Wave />
         </div>
@@ -343,6 +554,74 @@ export default function Home() {
                 </li>
               ))}
             </ul>
+          </div>
+        </section>
+
+        {/* ───────── NEW · WHY CHOOSE US ───────── */}
+        <section className="bg-(--cream) px-4 py-24 md:px-6">
+          <div className="mx-auto grid max-w-6xl overflow-hidden rounded-3xl border border-(--gold)/50 bg-(--navy) text-white lg:grid-cols-12">
+            <div className="p-8 md:p-10 lg:col-span-4 lg:border-r lg:border-(--gold)/25">
+              <Reveal>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-(--gold-light)">
+                  Why choose us
+                </p>
+                <h2 className="mt-4 font-serif text-3xl leading-tight md:text-4xl">
+                  A standard above the rest
+                </h2>
+                <p className="mt-5 text-sm leading-relaxed text-white/70">
+                  Aurevon Global Partners combines local insight with
+                  professional introductions to deliver unmatched results for
+                  our clients.
+                </p>
+              </Reveal>
+            </div>
+
+            <div className="flex flex-col justify-between gap-8 p-8 md:p-10 lg:col-span-4">
+              <dl className="grid grid-cols-2 gap-y-8">
+                {stats.map((s, i) => (
+                  <Reveal key={s.l} delay={i * 100}>
+                    <div>
+                      <dd className="font-serif text-4xl text-(--gold-light)">
+                        {s.n}
+                      </dd>
+                      <dt className="mt-1 text-xs text-white/70">{s.l}</dt>
+                    </div>
+                  </Reveal>
+                ))}
+              </dl>
+              <p className="font-serif text-2xl italic text-(--gold-light)">
+                Live exceptionally.
+              </p>
+            </div>
+
+            <div className="relative min-h-64 lg:col-span-2">
+              <Ph
+                bare
+                src={IMAGES.expert}
+                label="Interior at night"
+                tone="stone"
+                speed={0.04}
+                className="absolute inset-0 h-full w-full"
+              />
+            </div>
+
+            <div className="flex flex-col justify-center gap-5 p-8 lg:col-span-2 lg:p-6">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-(--gold-light)">
+                Speak to an expert
+              </p>
+              <a href={`tel:${CONTACT.phone.replace(/\s/g, "")}`} className="text-sm">
+                {CONTACT.phone}
+              </a>
+              <a href="/contact" className={btnGold}>
+                Book consultation
+              </a>
+              <a
+                href={`mailto:${CONTACT.email}`}
+                className="text-xs text-white/70 underline-offset-4 hover:underline"
+              >
+                Or email {CONTACT.email}
+              </a>
+            </div>
           </div>
         </section>
 
