@@ -19,7 +19,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${display.variable} ${jost.variable}`}>
-      <body className="bg-stone-50 font-family-name:var(--font-jost) text-slate-800 antialiased">
+      <body
+        suppressHydrationWarning
+        className="bg-stone-50 font-[family-name:var(--font-jost)] text-slate-800 antialiased"
+      >
         <Navbar />
         <main>{children}</main>
         <Footer />

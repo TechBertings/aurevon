@@ -21,7 +21,7 @@ import {
   type Place,
 } from "./components/home-story";
 import { glow } from './components/glow';
-
+import PropertyCarousel, { type Property } from "./components/property-carousel";
 
 
 /* EDIT HERE: brochure palette (same as About and Santa Sophia) */
@@ -37,16 +37,28 @@ const palette = {
   "--aegean": "#1d7db5",
 } as CSSProperties;
 
+/* Greek key (meander) band */
+const meanderBg = (color: string): CSSProperties => ({
+  backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='14'><path d='M0 13V1H13V10H5V5H9M13 1H18' fill='none' stroke='${color}' stroke-width='1.4'/></svg>")`,
+  backgroundRepeat: "repeat-x",
+});
+const Meander = ({
+  className = "",
+  color = "%23b9791f",
+}: {
+  className?: string;
+  color?: string;
+}) => <div aria-hidden className={`h-3.5 ${className}`} style={meanderBg(color)} />;
 /* EDIT HERE: your photos. Put files in public/images/home/ and set the path,
    e.g. athens: "/images/home/athens.jpg". Leave null to show the placeholder. */
 const IMAGES: Record<string, string | null> = {
   intro1: null /* whitewashed villa, vertical (arch) */,
   pool: "/images/pool.jpg"/* terrace or pool, wide */,
   stone:  "/images/stone.jpg" /* small detail: door, flowers, stone */,
-  lifestyle1: "/images/lifestyle1.jpg", // sea views
-  lifestyle2: "/images/lifestyle2.jpg", // modern living
-  lifestyle3: "/images/lifestyle3.jpg", // history
-  lifestyle4: "/images/lifestyle4.jpg", // quality of life
+  loc1: "/images/location-1.jpg", // Acropolis at sunset,
+  loc2: "/images/location-2.jpg", // villa on a turquoise bay
+  loc3: "/images/location-3.jpg", // harbour and lighthouse
+  loc4: "/images/location-4.jpg", // seaside town under a fortress
   athens: "/images/athens.jpg" /* Acropolis */,
   santorini: "/images/santorini.jpg" /* blue-domed church */,
   mykonos: "/images/mykonos.jpg" /* windmills */,
@@ -61,40 +73,39 @@ const IMAGES: Record<string, string | null> = {
   expert: null /* interior at night, vertical */,
 };
 
-/* NEW — EDIT HERE: contact details */
-const CONTACT = { phone: "+63 900 000 0000", email: "hello@aurevon.com" };
+
 
 const features: Feature[] = [
-  {
-    icon: "sun",
-    title: "Stunning Sea Views",
-    text: "Wake up to the beauty of the Mediterranean with breathtaking views every day.",
-    src: IMAGES.lifestyle1,
-    label: "Santorini sunset over the sea",
-    tone: "sunset",
-  },
-  {
-    icon: "home",
-    title: "Modern Living Spaces",
-    text: "Designed for comfort, elegance and long-term value.",
-    src: IMAGES.lifestyle2,
-    label: "Modern living room with sea view",
-    tone: "sea",
-  },
   {
     icon: "temple",
     title: "Rich History & Culture",
     text: "Live close to world-famous historical sites, vibrant towns and authentic Mediterranean life.",
-    src: IMAGES.lifestyle3,
-    label: "Colourful harbour town",
+    src: IMAGES.loc1,
+    label: "The Acropolis at sunset",
+    tone: "sunset",
+  },
+  {
+    icon: "sun",
+    title: "Stunning Sea Views",
+    text: "Wake up to the beauty of the Mediterranean with breathtaking views every day.",
+    src: IMAGES.loc2,
+    label: "A villa above a turquoise bay",
+    tone: "sea",
+  },
+  {
+    icon: "home",
+    title: "Relaxed Harbour Living",
+    text: "Waterfront cafés, fresh seafood and a slower rhythm of life on the Greek coast.",
+    src: IMAGES.loc3,
+    label: "Harbour and lighthouse at golden hour",
     tone: "stone",
   },
   {
     icon: "leaf",
     title: "A Better Quality of Life",
     text: "Enjoy a peaceful, healthy and inspiring environment for you and your family.",
-    src: IMAGES.lifestyle4,
-    label: "Terrace dining at sunset",
+    src: IMAGES.loc4,
+    label: "Seaside town beneath the fortress",
     tone: "pool",
   },
 ];
@@ -231,35 +242,72 @@ const services: { t: string; d: string; icon: ReactNode }[] = [
   },
 ];
 
-/* EDIT HERE: placeholder listings, replace with real ones */
-const properties = [
+const properties: Property[] = [
   {
-    src: IMAGES.p1,
-    place: "Athens Riviera, Greece",
-    name: "Seafront Modern Villa",
-    spec: "5 Beds · 5 Baths · 520 m²",
-    price: "€2,450,000",
-    tone: "sunset" as const,
+    slug: "seizani_loft",
+    src: "/images/living-1.png",
+    name: "Seizani Loft",
+    tag: "Golden Visa",
+    facts: ["Nea Ionia, Athens", "Loft · 2 units", "Delivery ready"],
+    stats: [{ n: "1", l: "Bedroom" }, { n: "55 m²", l: "Each" }],
+    price: "€250,000",
   },
   {
-    src: IMAGES.p2,
-    place: "Santorini, Greece",
-    name: "Caldera Cliff Residence",
-    spec: "3 Beds · 3 Baths · 280 m²",
-    price: "€1,875,000",
-    tone: "sea" as const,
+    slug: "pythagoras",
+    src: "/images/stairs-1.png",
+    name: "Pythagoras Loft",
+    tag: "Golden Visa",
+    facts: ["Korydallos, Athens", "Loft apartment", "0.9 km to metro"],
+    stats: [{ n: "2", l: "Bedrooms" }, { n: "80 m²", l: "Living" }],
+    price: "€290,000",
   },
   {
-    src: IMAGES.p3,
-    place: "Halkidiki, Greece",
-    name: "Pine Bay Pool Villa",
-    spec: "4 Beds · 4 Baths · 340 m²",
-    price: "€985,000",
-    tone: "pool" as const,
+    slug: "piraeus_olynthou",
+    src: "/images/living-3.png",
+    name: "Olynthou Loft",
+    tag: "Golden Visa",
+    facts: ["Piraeus, Athens", "Loft apartment", "20 min to centre"],
+    stats: [{ n: "1", l: "Bedroom" }, { n: "59 m²", l: "Living" }],
+    price: "€315,000",
+  },
+  {
+    slug: "drapetsona",
+    src: "/images/drapetsona-cover.png",
+    name: "Drapetsona",
+    tag: "Golden Visa",
+    facts: ["Drapetsona, Piraeus", "2 apartments", "1st floor"],
+    stats: [{ n: "1", l: "Bedroom" }, { n: "57–62 m²", l: "Size" }],
+    price: "€290,000",
+    from: true,
+  },
+  {
+    slug: "santa_sophia",
+    src: "/images/balconies-2.jpg",
+    name: "Santa Sophia",
+    tag: "Apartments",
+    facts: ["Athens", "Design direction", "Light & greenery"],
+    stats: [{ n: "9", l: "Details" }, { n: "3", l: "Themes" }],
+    price: "On request",
+  },
+  {
+    slug: "sea-view-villa",
+    src: "/images/villa-front.png",
+    name: "Sea View Villa",
+    tag: "Private villa",
+    facts: ["Vourvoulos, Santorini", "Unobstructed sea view", "Walk to the beach"],
+    stats: [{ n: "4", l: "Bedrooms" }, { n: "150 m²", l: "Residence" }],
+    price: "On request",
+  },
+  {
+    slug: "villa-porto-rafti",
+    src: "/images/villa-pool-1.png",
+    name: "Porto Rafti",
+    tag: "Pool estate",
+    facts: ["Eastern Attica", "2 buildings", "5 min to the beach"],
+    stats: [{ n: "6,020 m²", l: "Plot" }, { n: "100 m²", l: "Pool" }],
+    price: "On request",
   },
 ];
-
-
 
 
 /* EDIT HERE: placeholder numbers, replace with real ones */
@@ -434,74 +482,38 @@ export default function Home() {
         </section>
 
         {/* ───────── WHY GREECE · pinned scroll story ───────── */}
-        <LifestyleStory features={features} />
+      <div className="bg-(--cream)">
+  <Wave />
+</div>
+<LifestyleStory features={features} />
+<div className="bg-(--cream)">
+  <div className="bg-(--navy)">
+    <Wave flip />
+  </div>
+</div>
 
-        {/* ───────── NEW · FEATURED PROPERTIES ───────── */}
-        <section className="relative overflow-hidden bg-(--cream)">
-          <Paper />
-          <div className="relative mx-auto grid max-w-6xl gap-12 px-6 py-24 lg:grid-cols-12">
-            <div className="lg:col-span-3">
-              <Reveal>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-(--gold-dark)">
-                  Featured properties
-                </p>
-                <h2 className="mt-4 font-serif text-3xl leading-tight md:text-4xl">
-                  Discover our finest selection
-                </h2>
-                <span className="mt-6 block h-px w-14 bg-(--gold)" />
-                <p className="mt-6 text-sm leading-relaxed text-(--navy)/70">
-                  From island retreats to city residences, find a home that
-                  defines your lifestyle in Greece.
-                </p>
-                <a href="/properties" className={`${btnGold} mt-8`}>
-                  View all properties <span aria-hidden>→</span>
-                </a>
-              </Reveal>
-            </div>
-
-            <ul className="grid gap-6 sm:grid-cols-3 lg:col-span-9">
-              {properties.map((p, i) => (
-                <li key={p.name}>
-                  <Reveal delay={i * 120}>
-                    <Tilt max={4}>
-                      <article className="overflow-hidden rounded-xl border border-(--gold)/40 bg-(--navy)">
-                        <div className="relative aspect-3/4">
-                          <Ph
-                            bare
-                            src={p.src}
-                            label={p.name}
-                            tone={p.tone}
-                            speed={0.03}
-                            className="h-full w-full"
-                          />
-                          <div
-                            aria-hidden
-                            className="absolute inset-0 bg-linear-to-t from-(--navy-deep) via-(--navy-deep)/30 to-transparent"
-                          />
-                          <span className="absolute left-3 top-3 rounded bg-(--navy-deep)/70 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-(--gold-light)">
-                            Featured
-                          </span>
-                          <div className="absolute inset-x-0 bottom-0 p-5">
-                            <p className="text-[11px] uppercase tracking-[0.2em] text-white/70">
-                              {p.place}
-                            </p>
-                            <h3 className="mt-2 font-serif text-xl text-white">{p.name}</h3>
-                            <p className="mt-1 text-xs text-white/70">
-                              {p.spec}
-                            </p>
-                            <p className="mt-4 font-serif text-2xl text-(--gold-light)">
-                              {p.price}
-                            </p>
-                          </div>
-                        </div>
-                      </article>
-                    </Tilt>
-                  </Reveal>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
+{/* ───────── NEW · FEATURED PROPERTIES ───────── */}
+<section className="relative overflow-hidden bg-(--cream) pb-24">
+  <Paper />
+  <div className="relative mx-auto max-w-3xl px-6 pt-24 text-center">
+    <Reveal>
+      <p className="text-[11px] font-semibold uppercase tracking-[0.4em] text-(--gold-dark)">
+        Featured properties
+      </p>
+      <h2 className="mt-4 font-serif text-3xl leading-tight md:text-5xl">
+        Discover our finest selection
+      </h2>
+      <span className="mx-auto mt-6 block h-0.5 w-16 bg-linear-to-r from-(--gold) to-(--gold-light)" />
+      <p className="mx-auto mt-6 max-w-md text-sm leading-relaxed text-(--navy)/70">
+        From island retreats to city residences, find a home that
+        defines your lifestyle in Greece.
+      </p>
+    </Reveal>
+  </div>
+  <div className="relative mt-12">
+    <PropertyCarousel items={properties} />
+  </div>
+</section>
 
 
 
@@ -509,121 +521,59 @@ export default function Home() {
         <div className="bg-(--paper)">
           <Wave />
         </div>
-        <section
-          className="relative -mt-px overflow-hidden bg-(--navy) text-white"
-          style={glow("50% 0%", 0.25)}
+  <section
+  className="relative -mt-px overflow-hidden bg-(--navy) text-white"
+  style={glow("50% 0%", 0.25)}
+>
+  <div className="relative mx-auto max-w-6xl px-6 pb-20 pt-8 md:pb-28">
+    <Reveal>
+      <Title
+        dark
+        center
+        title="Prime locations in Greece"
+        sub="Iconic cities. Stunning islands. Exceptional opportunities."
+      />
+    </Reveal>
+    <div className="mt-16">
+      <LocationExplorer places={places} />
+    </div>
+  </div>
+</section>
+{/* ───────── QUICK FACTS · khaki band with Greek key ───────── */}
+<section className="relative -mt-px bg-(--cream)">
+  <Paper />
+  <div className="relative mx-auto max-w-5xl px-6">
+    {/* top border */}
+    <div className="pt-10 md:pt-14">
+      <span className="block h-px w-full bg-(--gold)/50" />
+      <Meander className="mt-2 opacity-70" />
+    </div>
+
+    <ul className="grid grid-cols-2 gap-y-10 py-14 md:grid-cols-4 md:py-16">
+      {strip.map((s, i) => (
+        <li
+          key={s.t}
+          className="md:border-l md:border-(--navy)/15 md:first:border-l-0"
         >
-          <div className="relative mx-auto max-w-6xl px-6 pb-20 pt-8 md:pb-28">
-            <Reveal>
-              <Title
-                dark
-                center
-                title="Prime locations in Greece"
-                sub="Iconic cities. Stunning islands. Exceptional opportunities."
-              />
-            </Reveal>
-            <div className="mt-16">
-              <LocationExplorer places={places} />
-            </div>
-
-            {/* quick facts */}
-            <ul className="mt-24 grid grid-cols-2 gap-y-10 border-t border-(--gold)/30 pt-12 md:grid-cols-4">
-              {strip.map((s, i) => (
-                <li
-                  key={s.t}
-                  className="md:border-l md:border-(--gold)/30 md:first:border-l-0"
-                >
-                  <Reveal delay={i * 130}>
-                    <Tilt className="flex flex-col items-center gap-4 px-4 text-center">
-                      <span
-                        className="fx-anim block"
-                        style={{
-                          animation: `fx-float 6s ease-in-out ${i * 0.6}s infinite`,
-                        }}
-                      >
-                        <Icon
-                          name={s.icon}
-                          className="h-10 w-10 text-(--gold-light)"
-                        />
-                      </span>
-                      <p className="max-w-[14ch] text-[11px] font-semibold uppercase tracking-[0.22em] text-white/90">
-                        {s.t}
-                      </p>
-                    </Tilt>
-                  </Reveal>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        {/* ───────── NEW · WHY CHOOSE US ───────── */}
-        <section className="bg-(--cream) px-4 py-24 md:px-6">
-          <div className="mx-auto grid max-w-6xl overflow-hidden rounded-3xl border border-(--gold)/50 bg-(--navy) text-white lg:grid-cols-12">
-            <div className="p-8 md:p-10 lg:col-span-4 lg:border-r lg:border-(--gold)/25">
-              <Reveal>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-(--gold-light)">
-                  Why choose us
-                </p>
-                <h2 className="mt-4 font-serif text-3xl leading-tight md:text-4xl">
-                  A standard above the rest
-                </h2>
-                <p className="mt-5 text-sm leading-relaxed text-white/70">
-                  Aurevon Global Partners combines local insight with
-                  professional introductions to deliver unmatched results for
-                  our clients.
-                </p>
-              </Reveal>
-            </div>
-
-            <div className="flex flex-col justify-between gap-8 p-8 md:p-10 lg:col-span-4">
-              <dl className="grid grid-cols-2 gap-y-8">
-                {stats.map((s, i) => (
-                  <Reveal key={s.l} delay={i * 100}>
-                    <div>
-                      <dd className="font-serif text-4xl text-(--gold-light)">
-                        {s.n}
-                      </dd>
-                      <dt className="mt-1 text-xs text-white/70">{s.l}</dt>
-                    </div>
-                  </Reveal>
-                ))}
-              </dl>
-              <p className="font-serif text-2xl italic text-(--gold-light)">
-                Live exceptionally.
+          <Reveal delay={i * 120}>
+            <div className="flex flex-col items-center gap-4 px-4 text-center">
+              <Icon name={s.icon} className="h-9 w-9 text-(--gold-dark)" />
+              <p className="max-w-[14ch] text-[11px] font-semibold uppercase tracking-[0.22em] text-(--navy)/80">
+                {s.t}
               </p>
             </div>
+          </Reveal>
+        </li>
+      ))}
+    </ul>
 
-            <div className="relative min-h-64 lg:col-span-2">
-              <Ph
-                bare
-                src={IMAGES.expert}
-                label="Interior at night"
-                tone="stone"
-                speed={0.04}
-                className="absolute inset-0 h-full w-full"
-              />
-            </div>
-
-            <div className="flex flex-col justify-center gap-5 p-8 lg:col-span-2 lg:p-6">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-(--gold-light)">
-                Speak to an expert
-              </p>
-              <a href={`tel:${CONTACT.phone.replace(/\s/g, "")}`} className="text-sm">
-                {CONTACT.phone}
-              </a>
-              <a href="/contact" className={btnGold}>
-                Book consultation
-              </a>
-              <a
-                href={`mailto:${CONTACT.email}`}
-                className="text-xs text-white/70 underline-offset-4 hover:underline"
-              >
-                Or email {CONTACT.email}
-              </a>
-            </div>
-          </div>
-        </section>
+    {/* bottom border */}
+    <div className="pb-10 md:pb-14">
+      <Meander className="opacity-70" />
+      <span className="mt-2 block h-px w-full bg-(--gold)/50" />
+    </div>
+  </div>
+</section>
 
         {/* ───────── FINALE · full-bleed photo ───────── */}
         <section className="relative isolate flex min-h-[85vh] items-end overflow-hidden bg-(--navy-deep)">

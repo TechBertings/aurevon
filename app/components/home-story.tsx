@@ -1,18 +1,34 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import type { CSSProperties } from "react";
 import {
   Badge,
-  Paper,
   Ph,
   Reveal,
-  Tag,
   Title,
   useInView,
   type IconName,
   type Tone,
 } from "./fx";
+import { glow } from "./glow";
 
+/* Greek key band (local to this file) */
+const meanderBg = (color: string): CSSProperties => ({
+  backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='14'><path d='M0 13V1H13V10H5V5H9M13 1H18' fill='none' stroke='${color}' stroke-width='1.4'/></svg>")`,
+  backgroundRepeat: "repeat-x",
+});
+const Meander = ({
+  className = "",
+  color = "%23e2b862",
+}: {
+  className?: string;
+  color?: string;
+}) => (
+  <div aria-hidden className={`h-3.5 ${className}`} style={meanderBg(color)} />
+);
+const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
+const roman = (n: number) => ROMAN[n - 1] ?? String(n);
 /* ═════════════════════════════════════════════════════════════
    1. LIFESTYLE STORY
    Big photo stays pinned on the left. As you scroll the four
@@ -29,129 +45,232 @@ export type Feature = {
 
 export function LifestyleStory({ features }: { features: Feature[] }) {
   const [active, setActive] = useState(0);
-  const items = useRef<(HTMLLIElement | null)[]>([]);
+  const [touchX, setTouchX] = useState<number | null>(null);
   const n = features.length;
-
-  useEffect(() => {
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            setActive(Number((e.target as HTMLElement).dataset.i));
-          }
-        }
-      },
-      { rootMargin: "-45% 0px -45% 0px" },
-    );
-    items.current.forEach((el) => el && io.observe(el));
-    return () => io.disconnect();
-  }, []);
+  const go = (d: number) => setActive((a) => (a + d + n) % n);
 
   return (
-    <section className="relative bg-(--paper)">
-      <Paper />
-      <div className="relative mx-auto max-w-6xl px-6 py-20 md:py-28">
-        <Reveal>
-          <Title
-            center
-            title="Why Greece"
-            sub="Sun, sea, culture and opportunity"
-          />
-        </Reveal>
+    <section
+      className="relative -mt-px bg-(--navy) text-white"
+      style={glow("50% 0%", 0.22)}
+    >
+      <div className="relative mx-auto max-w-6xl px-6 pt-16 md:pt-24">
+        <Meander className="mx-auto w-full max-w-md opacity-50" />
+        <div className="mt-12">
+          <Reveal>
+            <Title
+              dark
+              center
+              title="Why Greece"
+              sub="Sun, sea, culture and opportunity"
+            />
+          </Reveal>
+        </div>
+      </div>
 
-        <div className="mt-16 grid gap-12 lg:grid-cols-12">
-          {/* pinned photo stack (desktop) */}
-          <div className="hidden lg:col-span-6 lg:block">
-            <div className="sticky top-24 h-[min(640px,calc(100vh-8rem))]">
-              <div className="relative mx-auto h-full w-full max-w-md">
+      <div
+        className="relative mx-auto mt-16 grid max-w-6xl items-center gap-14 px-6 pb-20 md:pb-28 lg:grid-cols-12 lg:gap-12"
+        onTouchStart={(e) => setTouchX(e.touches[0].clientX)}
+        onTouchEnd={(e) => {
+          if (touchX === null) return;
+          const dx = e.changedTouches[0].clientX - touchX;
+          if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+          setTouchX(null);
+        }}
+      >
+        {/* ───── gallery plate ───── */}
+        <div className="lg:col-span-7">
+          <div className="mx-auto w-full max-w-2xl">
+            <div className="relative">
+              <div
+                aria-hidden
+                className="absolute inset-0 translate-x-3 translate-y-3 border border-(--gold-light)/35 md:translate-x-4 md:translate-y-4"
+              />
+              <div className="relative bg-(--cream) p-2.5 shadow-[0_50px_80px_-30px_rgba(0,0,0,0.75)] md:p-3.5">
+                <div className="relative aspect-4/3 overflow-hidden ring-1 ring-(--gold)/70">
+                  {features.map((f, i) => (
+                    <div
+                      key={f.title}
+                      aria-hidden={i !== active}
+                      className="fx-clip absolute inset-0"
+                      style={{
+                        zIndex: i === active ? 2 : 1,
+                        opacity: i === active ? 1 : 0,
+                        transform: i === active ? "scale(1)" : "scale(1.05)",
+                        clipPath:
+                          i === active
+                            ? "inset(0 0 0 0)"
+                            : "inset(0 0 100% 0)",
+                        transition:
+                          "opacity 900ms ease, transform 1200ms cubic-bezier(.2,.7,.2,1), clip-path 1000ms cubic-bezier(.77,0,.18,1)",
+                      }}
+                    >
+                      <Ph
+                        src={f.src}
+                        label={f.label}
+                        tone={f.tone}
+                        bare
+                        priority={i === 0}
+                        sizes="(min-width:1024px) 40rem, 90vw"
+                        className="h-full w-full"
+                      />
+                    </div>
+                  ))}
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 z-20 shadow-[inset_0_0_60px_rgba(10,23,64,0.25)]"
+                  />
+                </div>
+
                 <div
                   aria-hidden
-                  className="fx-anim absolute -right-10 -top-10 z-20 h-40 w-40 rounded-full border border-dashed border-(--gold)"
-                  style={{ animation: "fx-spin 30s linear infinite" }}
+                  className="pointer-events-none absolute inset-1.5 border border-(--gold)/50"
                 />
-                {features.map((f, i) => (
-                  <div
-                    key={f.title}
-                    className="fx-clip absolute inset-0"
-                    style={{
-                      zIndex: i,
-                      clipPath:
-                        i <= active
-                          ? "inset(-30px -30px -30px -30px)"
-                          : "inset(-30px -30px 100% -30px)",
-                      transition: "clip-path 1100ms cubic-bezier(.77,0,.18,1)",
-                    }}
-                  >
-                    <Ph
-                      src={f.src}
-                      label={f.label}
-                      tone={f.tone}
-                      arch
-                      className="h-full w-full"
-                    />
-                  </div>
+                {[
+                  "left-0 top-0 border-l-2 border-t-2",
+                  "right-0 top-0 border-r-2 border-t-2",
+                  "bottom-0 left-0 border-b-2 border-l-2",
+                  "bottom-0 right-0 border-b-2 border-r-2",
+                ].map((c) => (
+                  <span
+                    key={c}
+                    aria-hidden
+                    className={`pointer-events-none absolute h-5 w-5 border-(--gold) ${c}`}
+                  />
                 ))}
-                <Tag className="absolute -left-4 bottom-10 z-30">
-                  {String(active + 1).padStart(2, "0")} /{" "}
-                  {String(n).padStart(2, "0")}
-                </Tag>
               </div>
             </div>
-          </div>
 
-          {/* scrolling points */}
-          <ol className="relative lg:col-span-6">
-            <span
-              aria-hidden
-              className="absolute left-7 top-0 hidden h-full w-px bg-(--navy)/15 lg:block"
-            />
-            <span
-              aria-hidden
-              className="absolute left-7 top-0 hidden w-px bg-linear-to-b from-(--gold-light) to-(--gold-dark) transition-[height] duration-1000 ease-out lg:block"
-              style={{ height: `${((active + 1) / n) * 100}%` }}
-            />
-            {features.map((f, i) => (
-              <li
-                key={f.title}
-                ref={(el) => {
-                  items.current[i] = el;
-                }}
-                data-i={i}
-                className={`relative flex flex-col justify-center gap-5 py-10 transition-opacity duration-700 lg:min-h-[78vh] lg:pl-24 ${
-                  i === active ? "" : "lg:opacity-30"
-                }`}
-              >
-                {/* photo shown inline on mobile */}
-                <div className="lg:hidden">
-                  <Reveal variant="wipe">
-                    <Ph
-                      src={f.src}
-                      label={f.label}
-                      tone={f.tone}
-                      arch
-                      className="mx-auto aspect-4/5 w-4/5"
-                    />
-                  </Reveal>
-                </div>
-                <Badge
-                  name={f.icon}
-                  className={`h-14 w-14 transition-transform duration-700 lg:absolute lg:left-0 lg:top-1/2 lg:-translate-y-1/2 ${
-                    i === active ? "lg:scale-110" : ""
+            {/* caption */}
+            <div className="mt-6 flex items-center justify-between gap-4 border-y border-(--gold-light)/50 py-3">
+              <span className="font-serif text-sm italic tracking-wide text-white/90">
+                {features[active].label}
+              </span>
+              <span className="shrink-0 font-serif text-[11px] tracking-[0.35em] text-(--gold-light)">
+                {roman(active + 1)}
+                <span className="mx-1.5 text-white/30">/</span>
+                {roman(n)}
+              </span>
+            </div>
+
+            {/* thumbnails */}
+            <div className="mt-5 grid grid-cols-4 gap-3">
+              {features.map((f, i) => {
+                const on = i === active;
+                return (
+                  <button
+                    key={f.title}
+                    type="button"
+                    onClick={() => setActive(i)}
+                    aria-label={`Show ${f.label}`}
+                    aria-pressed={on}
+                    className="group text-left"
+                  >
+                    <span
+                      className={`relative block aspect-3/2 overflow-hidden border p-0.5 transition duration-500 ${
+                        on
+                          ? "border-(--gold-light) opacity-100"
+                          : "border-white/20 opacity-50 group-hover:opacity-90"
+                      }`}
+                    >
+                      <span className="relative block h-full w-full overflow-hidden">
+                        <Ph
+                          src={f.src}
+                          label={f.label}
+                          tone={f.tone}
+                          bare
+                          sizes="140px"
+                          className="h-full w-full"
+                        />
+                      </span>
+                    </span>
+                    <span
+                      className={`mt-2 block text-center font-serif text-[10px] tracking-[0.3em] transition-colors duration-500 ${
+                        on ? "text-(--gold-light)" : "text-white/40"
+                      }`}
+                    >
+                      {roman(i + 1)}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* ───── text + controls ───── */}
+        <div className="lg:col-span-5">
+          {/* all items share one cell so the height never jumps */}
+          <ol className="grid">
+            {features.map((f, i) => {
+              const on = i === active;
+              return (
+                <li
+                  key={f.title}
+                  aria-hidden={!on}
+                  className={`col-start-1 row-start-1 flex flex-col justify-center transition-all duration-700 ${
+                    on
+                      ? "translate-y-0 opacity-100"
+                      : "pointer-events-none translate-y-4 opacity-0"
+                  }`}
+                >
+                  <span
+                    aria-hidden
+                    className="block bg-linear-to-b from-(--gold-light) to-(--gold-dark) bg-clip-text font-serif text-7xl font-bold leading-none tracking-wide text-transparent md:text-8xl"
+                  >
+                    {roman(i + 1)}
+                  </span>
+
+                  <Meander className="mt-5 w-28 opacity-70" />
+
+                  <h3 className="mt-6 font-serif text-4xl leading-[1.05] text-white md:text-5xl">
+                    {f.title}
+                  </h3>
+
+                  <span className="mt-6 block h-px w-16 bg-(--gold-light)" />
+
+                  <p className="mt-6 max-w-md text-base leading-relaxed text-white/70">
+                    {f.text}
+                  </p>
+
+                  <div className="mt-8 flex max-w-sm items-center gap-5">
+                    <Badge name={f.icon} className="h-12 w-12 shrink-0" />
+                    <span className="h-px flex-1 bg-white/20" />
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
+
+          {/* prev / next */}
+          <div className="mt-10 flex items-center gap-5">
+            <button
+              type="button"
+              onClick={() => go(-1)}
+              aria-label="Previous"
+              className="flex h-12 w-12 shrink-0 items-center justify-center border border-white/30 transition hover:border-(--gold-light) hover:bg-(--gold-light) hover:text-(--navy-deep)"
+            >
+              ←
+            </button>
+            <div className="flex flex-1 gap-2">
+              {features.map((f, i) => (
+                <span
+                  key={f.title}
+                  className={`h-px flex-1 transition-colors duration-700 ${
+                    i <= active ? "bg-(--gold-light)" : "bg-white/20"
                   }`}
                 />
-                <span className="font-serif text-sm tracking-[0.3em] text-(--gold-dark)">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h3 className="font-serif text-3xl font-bold uppercase leading-tight md:text-4xl">
-                  {f.title}
-                </h3>
-                <span className="h-0.5 w-12 bg-linear-to-r from-(--gold) to-(--gold-light)" />
-                <p className="max-w-md leading-relaxed text-(--navy)/75">
-                  {f.text}
-                </p>
-              </li>
-            ))}
-          </ol>
+              ))}
+            </div>
+            <button
+              type="button"
+              onClick={() => go(1)}
+              aria-label="Next"
+              className="flex h-12 shrink-0 items-center justify-center gap-3 border border-(--gold-light) bg-(--gold-light) px-6 text-[11px] font-semibold uppercase tracking-[0.25em] text-(--navy-deep) transition hover:bg-transparent hover:text-(--gold-light)"
+            >
+              Next <span aria-hidden>→</span>
+            </button>
+          </div>
         </div>
       </div>
     </section>
