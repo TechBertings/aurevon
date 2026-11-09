@@ -334,7 +334,7 @@ export default function Navbar() {
     width={400}
     height={120}
     priority
-    className="h-28 w-auto contrast-125 saturate-150 md:h-40"
+   className="h-24 w-auto contrast-125 saturate-150 md:h-32"
   />
 </Link>
 
@@ -347,7 +347,7 @@ export default function Navbar() {
           <Link
             href="/contact"
             onClick={closeAll}
-            className="hidden border border-(--navy) bg-(--navy) px-5 py-2.5 text-xs font-medium uppercase tracking-[0.15em] text-white transition hover:border-(--gold) hover:bg-(--gold) hover:text-(--navy) md:inline-block"
+            className="hidden whitespace-nowrap border border-(--navy) bg-(--navy) px-5 py-2.5 text-xsfont-medium uppercase tracking-[0.15em] text-white transition hover:border-(--gold) hover:bg-(--gold) hover:text-(--navy) md:inline-block"
           >
             Inquire Now
           </Link>

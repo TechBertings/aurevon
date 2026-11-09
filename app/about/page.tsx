@@ -367,8 +367,7 @@ export default function AboutPage() {
   return (
     <main className="bg-(--cream) text-(--navy)" style={palette}>
       {/* ───────── HERO · sky to sunset ───────── */}
-      <section className="relative overflow-hidden bg-linear-to-b from-(--sky) via-[#f6efe0] to-[#f4d9a8] pt-32 md:pt-40">
-        <div
+<section className="relative overflow-hidden bg-linear-to-b from-(--sky) via-[#f6efe0] to-[#f4d9a8] pt-44 md:pt-64">        <div
           aria-hidden
           className="absolute inset-0"
           style={glow("85% 85%", 0.45)}
