@@ -420,12 +420,16 @@ export default function AboutPage() {
                   label={`${m.name}, ${m.role}`}
                   className="aspect-3/4 w-full"
                 />
-                <p className="mt-4 font-serif text-sm font-bold text-(--navy) sm:text-lg">
-                  {m.name}
-                </p>
-                <p className="mt-0.5 font-serif text-[11px] italic leading-snug text-(--gold-dark) sm:text-sm">
-                  {m.role}
-                </p>
+             <p className="mt-4 font-serif text-sm font-bold text-(--navy) sm:text-lg">
+  {m.name}
+</p>
+<p className="mt-1 font-serif text-[11px] font-semibold leading-snug text-(--gold-dark) sm:text-sm">
+  {m.fullRole}
+</p>
+<span aria-hidden className="mx-auto my-1.5 block h-px w-6 bg-(--gold)/60" />
+<p className="font-serif text-[11px] italic leading-snug text-(--gold-dark)/80 sm:text-sm">
+  {m.title}
+</p>
               </li>
             ))}
           </ul>
