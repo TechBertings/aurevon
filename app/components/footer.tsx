@@ -265,15 +265,15 @@ export default function Footer() {
       {/* cream band: the transparent logo keeps its original colours, no plate around it */}
       <div className="relative bg-(--cream) px-6 pb-8 pt-12 text-center">
         <Reveal3D variant="zoom" duration={1300}>
-          <Tilt3D max={6} className="inline-block">
-           <Image
-  src="/images/aurevon_logo_rbg.png"
-  alt="Aurevon Global Partners"
-  width={800}
-  height={240}
-  className="h-32 w-auto md:h-48"
-/>
-          </Tilt3D>
+    <Tilt3D max={6} className="inline-block">
+  <Image
+    src="/images/aurevon_logo_rbg.png"
+    alt="Aurevon Global Partners"
+    width={800}
+    height={240}
+    className="h-40 w-auto md:h-60"
+  />
+</Tilt3D>
         </Reveal3D>
         <div
           aria-hidden

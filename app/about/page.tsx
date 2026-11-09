@@ -314,10 +314,12 @@ const team = [
     id: "owner1" as const,
     name: "Peter Kemper",
     role: "Managing Director",
-    title: "Architect & Business Leader.",
+    fullRole: "Managing Director",
+    title: "Architect & Business Leader",
     bio: [
-      "An established architect based in Passau, Germany, Peter brings more than a decade of experience in architecture, property development and business management.",
-      "As founder of an architectural business serving the Passau region for over 10 years, he contributes expertise in property evaluation, design, development and strategic planning. At Aurevon, he leads the company's strategic direction, international partnerships and business development.",
+      "An established architect based in Passau, Germany, Peter Kemper brings more than a decade of experience in architecture, property development, and business management.",
+      "As the founder of an architectural business serving the Passau region for over 10 years, he contributes valuable expertise in property evaluation, design, development, and strategic planning.",
+      "At AUREVON Global Partners, Peter leads the company’s strategic direction, international partnerships, and business development, combining his architectural background with a long-term vision for international property opportunities.",
     ],
     points: [
       { icon: "home" as const, t: "10+ years in architecture" },
@@ -329,10 +331,12 @@ const team = [
     id: "owner2" as const,
     name: "Ruby Taylan",
     role: "Investor Relations & Operations",
-    title: "International Travel & Tourism Professional.",
+    fullRole: "Investor Relations & Operations Manager",
+    title: "International Travel & Tourism Professional",
     bio: [
-      "With more than 15 years of experience in travel consultancy, tourism, reservations and international client services, Ruby brings a strong background in customer relations and cross-border coordination.",
-      "A BS Tourism Management graduate with experience across the Philippines, China and Germany, she oversees investor relations, client engagement, international business coordination and day-to-day operations.",
+      "With more than 15 years of experience in travel consultancy, tourism, reservations, and international client services, Ruby Taylan brings a strong background in customer relations and cross-border coordination.",
+      "A graduate of Bachelor of Science in Tourism Management, Ruby has built her professional experience across the Philippines, China, and Germany, developing expertise in international communication, travel coordination, hospitality, and business operations.",
+      "At AUREVON, she oversees investor relations, client engagement, international business coordination, and day-to-day operations. Her client-focused approach helps prospective buyers navigate property inquiries, investment presentations, and coordination with professional partners.",
     ],
     points: [
       { icon: "globe" as const, t: "15+ years in travel & tourism" },
@@ -344,10 +348,12 @@ const team = [
     id: "owner3" as const,
     name: "Kim Greindl",
     role: "Client & Documentation Support",
-    title: "Businesswoman & Entrepreneur.",
+    fullRole: "Client & Documentation Support Coordinator",
+    title: "Businesswoman & Entrepreneur",
     bio: [
-      "A businesswoman based in Passau, Germany, Kim brings an entrepreneurial perspective and a strong commitment to professional client service.",
-      "Her business background contributes practical organizational skills, attention to detail and reliable communication. She supports client relations, documentation coordination, administrative processes and communication with business partners.",
+      "A businesswoman based in Passau, Germany, Kim Greindl brings an entrepreneurial perspective and a strong commitment to professional client service.",
+      "Her business background contributes practical organizational skills, attention to detail, and an understanding of the importance of reliable communication and efficient administration.",
+      "At AUREVON, Kim supports client relations, documentation coordination, administrative processes, and communication with business partners, helping ensure that every client receives attentive and well-organized service.",
     ],
     points: [
       { icon: "heart" as const, t: "Client relations" },
@@ -368,38 +374,38 @@ export default function AboutPage() {
           style={glow("85% 85%", 0.45)}
         />
         <div className="relative mx-auto grid max-w-6xl items-center gap-16 px-6 pb-24 md:pb-32 lg:grid-cols-12">
-          <div className="lg:col-span-5">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.4em] text-(--navy)/70">
-              Greece property &amp; residency opportunities
-            </p>
-            <h1 className="mt-6 font-serif text-5xl font-bold uppercase leading-[1.02] tracking-tight text-(--navy) md:text-7xl">
-              About
-              <span className="block bg-linear-to-b from-(--gold-light) to-(--gold-dark) bg-clip-text text-transparent">
-                Aurevon
-              </span>
-            </h1>
-            <p className="mt-7 max-w-lg text-lg leading-relaxed text-(--navy)/80">
-              Aurevon Global Partners connects Philippine investors and
-              families with selected property opportunities in Greece. We help
-              you explore ownership, potential rental income and residency
-              pathways for eligible family members through practical
-              coordination and professional introductions.
-            </p>
-            <div className="mt-10 flex flex-wrap gap-4">
-              <Link
-                href="/contact"
-                className="bg-(--navy) px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.15em] text-white shadow-lg transition hover:bg-(--gold-dark)"
-              >
-                Discuss your requirements
-              </Link>
-              <a
-                href="#team"
-                className="border border-(--navy)/40 bg-white/40 px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.15em] backdrop-blur transition hover:border-(--gold) hover:text-(--gold-dark)"
-              >
-                Meet the team
-              </a>
-            </div>
-          </div>
+       <div className="lg:col-span-5">
+  <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-(--navy)/70">
+    Greece property &amp; residency opportunities
+  </p>
+  <h1 className="mt-5 font-serif text-3xl font-bold uppercase leading-[1.05] tracking-tight text-(--navy) md:text-4xl">
+    About
+    <span className="block bg-linear-to-b from-(--gold-light) to-(--gold-dark) bg-clip-text text-transparent">
+      Aurevon
+    </span>
+  </h1>
+  <p className="mt-5 max-w-md text-sm leading-relaxed text-(--navy)/80 md:text-base">
+    Aurevon Global Partners connects Philippine investors and
+    families with selected property opportunities in Greece. We help
+    you explore ownership, potential rental income and residency
+    pathways for eligible family members through practical
+    coordination and professional introductions.
+  </p>
+  <div className="mt-8 flex flex-wrap gap-3">
+    <Link
+      href="/contact"
+      className="bg-(--navy) px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.15em] text-white shadow-lg transition hover:bg-(--gold-dark)"
+    >
+      Discuss your requirements
+    </Link>
+    <a
+      href="#team"
+      className="border border-(--navy)/40 bg-white/40 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.15em] backdrop-blur transition hover:border-(--gold) hover:text-(--gold-dark)"
+    >
+      Meet the team
+    </a>
+  </div>
+</div>
 
           <ul className="mx-auto grid w-full max-w-2xl grid-cols-3 gap-3 sm:gap-5 lg:col-span-7 lg:max-w-none">
             {team.map((m, i) => (
@@ -781,139 +787,161 @@ export default function AboutPage() {
         </Reveal>
       </section>
 
-      {/* ───────── TEAM · cream, alternating split cards ───────── */}
-      <section id="team" className="relative scroll-mt-20 bg-(--cream)">
-        <Paper />
-        <div className="relative mx-auto max-w-6xl px-6 py-20 md:py-28">
-          <Reveal>
-            <Title
-              center
-              title="Meet the people behind Aurevon"
-              sub="Experience. Expertise. Trust. International Connections."
-            />
-            <p className="mx-auto mt-6 max-w-3xl text-center leading-relaxed text-(--navy)/75">
-              Our team brings together architectural expertise, international
-              tourism experience, business management and personalized client
-              service. With professional roots in Germany and international
-              connections, we help clients confidently explore property
-              investment and residency opportunities in Greece.
-            </p>
-          </Reveal>
+{/* ───────── TEAM · cream, alternating split cards ───────── */}
+<section id="team" className="relative scroll-mt-20 bg-(--cream)">
+  <Paper />
+  <div className="relative mx-auto max-w-6xl px-6 py-20 md:py-28">
+    <Reveal>
+      <Title
+        center
+        title="Meet the people behind Aurevon"
+        sub="Experience. Expertise. Trust. International Connections."
+      />
+      <div className="mx-auto mt-6 max-w-3xl space-y-4 text-center leading-relaxed text-(--navy)/75">
+        <p>
+          At AUREVON Global Partners, we believe successful international
+          property investments begin with trusted relationships and
+          experienced professionals.
+        </p>
+        <p>
+          Our team brings together architectural expertise, international
+          tourism experience, business management, and personalized client
+          services. With professional roots in Germany and international
+          connections, we are dedicated to helping clients confidently
+          explore property investment and residency opportunities in Greece.
+        </p>
+      </div>
+    </Reveal>
 
-          <ul className="mt-16 space-y-16 md:space-y-24">
-            {team.map((m, i) => {
-              const photoRight = i % 2 === 1;
-              const src = IMAGES[m.id];
-              return (
-                <li key={m.id}>
-                  <Reveal className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-                    {/* Photo */}
-                    <div
-                      className={`relative h-120 overflow-hidden rounded-3xl border border-(--gold)/40 bg-(--paper) shadow-[0_30px_60px_-30px_rgba(16,35,94,0.45)] md:h-144 ${
-                        photoRight ? "lg:order-2" : "lg:order-1"
-                      }`}
-                    >
-                      {src ? (
-                        <Image
-                          src={src}
-                          alt={`${m.name}, ${m.role}`}
-                          fill
-                          sizes="(min-width:1024px) 50vw, 100vw"
-                          className="object-cover object-top"
-                        />
-                      ) : (
-                        <div className="flex h-full w-full items-center justify-center bg-linear-to-b from-(--sky) to-(--paper)">
-                          <Icon
-                            name="user"
-                            className="h-10 w-10 text-(--aegean)/60"
-                          />
-                        </div>
-                      )}
+    <ul className="mt-16 space-y-16 md:space-y-24">
+      {team.map((m, i) => {
+        const photoRight = i % 2 === 1;
+        const src = IMAGES[m.id];
+        return (
+          <li key={m.id}>
+            <Reveal className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+              {/* Photo */}
+              <div
+                className={`relative h-120 overflow-hidden rounded-3xl border border-(--gold)/40 bg-(--paper) shadow-[0_30px_60px_-30px_rgba(16,35,94,0.45)] md:h-144 ${
+                  photoRight ? "lg:order-2" : "lg:order-1"
+                }`}
+              >
+                {src ? (
+                  <Image
+                    src={src}
+                    alt={`${m.name}, ${m.fullRole}`}
+                    fill
+                    sizes="(min-width:1024px) 50vw, 100vw"
+                    className="object-cover object-top"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center bg-linear-to-b from-(--sky) to-(--paper)">
+                    <Icon name="user" className="h-10 w-10 text-(--aegean)/60" />
+                  </div>
+                )}
 
-                      {/* soft fade into the text side (desktop only) */}
-                      <div
-                        aria-hidden
-                        className={`pointer-events-none absolute inset-y-0 hidden w-1/3 from-(--cream) to-transparent lg:block ${
-                          photoRight
-                            ? "left-0 bg-linear-to-r"
-                            : "right-0 bg-linear-to-l"
-                        }`}
-                      />
+                <div
+                  aria-hidden
+                  className={`pointer-events-none absolute inset-y-0 hidden w-1/3 from-(--cream) to-transparent lg:block ${
+                    photoRight ? "left-0 bg-linear-to-r" : "right-0 bg-linear-to-l"
+                  }`}
+                />
 
-                      {/* name card */}
-                      <div
-                        className={`absolute bottom-6 flex items-center gap-3 rounded-xl bg-(--cream) px-6 py-4 shadow-xl ${
-                          photoRight ? "right-6" : "left-6"
-                        }`}
-                      >
-                        <Icon
-                          name="user"
-                          className="h-5 w-5 text-(--gold-dark)"
-                        />
-                        <div>
-                          <p className="font-serif text-lg font-bold text-(--navy)">
-                            {m.name}
-                          </p>
-                          <p className="font-serif text-sm italic text-(--gold-dark)">
-                            {m.role}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
+      {/* name card */}
+<div
+  className={`absolute bottom-6 flex max-w-[calc(100%-3rem)] items-center gap-3 rounded-xl bg-(--cream) px-6 py-4 shadow-xl ${
+    photoRight ? "right-6" : "left-6"
+  }`}
+>
+  <Icon name="user" className="h-5 w-5 shrink-0 text-(--gold-dark)" />
+  <div>
+    <p className="font-serif text-lg font-bold leading-tight text-(--navy)">
+      {m.name}
+    </p>
+    <p className="mt-0.5 font-serif text-sm font-semibold leading-snug text-(--gold-dark)">
+      {m.fullRole}
+    </p>
+    <p className="font-serif text-sm italic leading-snug text-(--gold-dark)/80">
+      {m.title}
+    </p>
+  </div>
+</div>
+              </div>
 
-                    {/* Text */}
-                    <div className={photoRight ? "lg:order-1" : "lg:order-2"}>
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-(--gold-dark)">
-                        {m.role}
-                      </p>
-                      <h3 className="mt-4 font-serif text-4xl font-bold leading-[1.1] text-(--navy) md:text-5xl">
-                        {m.name}.
-                        <span className="block text-2xl italic text-(--gold-dark) md:text-3xl">
-                          {m.title}
-                        </span>
-                      </h3>
-                      <div className="mt-6 space-y-4 text-sm leading-relaxed text-(--navy)/75 md:text-base">
-                        {m.bio.map((p) => (
-                          <p key={p}>{p}</p>
-                        ))}
-                      </div>
+    {/* Text */}
+<div className={photoRight ? "lg:order-1" : "lg:order-2"}>
+  {/* 1. name */}
+  <h3 className="font-serif text-3xl font-bold uppercase leading-[1.1] tracking-tight text-(--navy) md:text-4xl">
+    {m.name}
+  </h3>
 
-                      <ul className="mt-8 grid gap-4 sm:grid-cols-3">
-                        {m.points.map((pt) => (
-                          <li
-                            key={pt.t}
-                            className="flex items-start gap-3 border-l-2 border-(--gold) pl-3"
-                          >
-                            <Icon
-                              name={pt.icon}
-                              className="mt-0.5 h-5 w-5 shrink-0 text-(--gold-dark)"
-                            />
-                            <span className="text-sm leading-snug text-(--navy)">
-                              {pt.t}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </Reveal>
-                </li>
-              );
-            })}
-          </ul>
+  {/* 2. role | title */}
+  <p className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 font-serif text-base leading-snug md:text-lg">
+    <span className="font-bold text-(--gold-dark)">{m.fullRole}</span>
+    <span aria-hidden className="h-4 w-px bg-(--gold)/60" />
+    <span className="italic text-(--gold-dark)/80">{m.title}</span>
+  </p>
 
-          {/* closing line */}
-          <Reveal className="mt-20 text-center">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.4em] text-(--gold-dark)">
-              Your vision. Our connections. Your opportunity.
-            </p>
-            <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-(--navy)/75">
-              From your first property inquiry to coordination with trusted
-              local professionals, our team is committed to personalized
-              attention, transparent communication and professional support.
-            </p>
-          </Reveal>
-        </div>
-      </section>
+  {/* 3. divider */}
+  <span className="mt-5 block h-0.5 w-16 bg-linear-to-r from-(--gold) to-(--gold-light)" />
+
+  {/* 4. bio */}
+  <div className="mt-6 space-y-4 text-sm leading-relaxed text-(--navy)/75">
+    {m.bio.map((p, idx) => (
+      <p
+        key={p}
+        className={idx === 0 ? "text-base text-(--navy)/85" : ""}
+      >
+        {p}
+      </p>
+    ))}
+  </div>
+
+  {/* 5. highlights */}
+  <ul className="mt-8 grid gap-4 border-t border-(--gold)/30 pt-6 sm:grid-cols-3">
+    {m.points.map((pt) => (
+      <li key={pt.t} className="flex items-start gap-3">
+        <Icon
+          name={pt.icon}
+          className="mt-0.5 h-5 w-5 shrink-0 text-(--gold-dark)"
+        />
+        <span className="text-xs font-medium uppercase leading-snug tracking-[0.08em] text-(--navy)">
+          {pt.t}
+        </span>
+      </li>
+    ))}
+  </ul>
+</div>
+            </Reveal>
+          </li>
+        );
+      })}
+    </ul>
+
+    {/* closing */}
+    <Reveal className="mt-20 text-center">
+      <span
+        aria-hidden
+        className="mx-auto mb-8 block h-4 w-40 opacity-80"
+        style={meander()}
+      />
+      <p className="text-[11px] font-semibold uppercase tracking-[0.4em] text-(--gold-dark)">
+        Your vision. Our connections. Your opportunity.
+      </p>
+      <h3 className="mx-auto mt-5 max-w-2xl font-serif text-2xl font-bold text-(--navy) md:text-4xl">
+        Discover Greece with AUREVON Global Partners.
+      </h3>
+      <p className="mx-auto mt-5 max-w-2xl leading-relaxed text-(--navy)/75">
+        From your first property inquiry to coordination with trusted local
+        professionals, our team is committed to providing personalized
+        attention, transparent communication, and professional support.
+      </p>
+      <p className="mt-6 font-serif text-lg italic text-(--gold-dark) md:text-xl">
+        Explore opportunities. Build connections. Discover possibilities.
+      </p>
+    </Reveal>
+  </div>
+</section>
 
       {/* ───────── PRINCIPLES · navy ───────── */}
       <div className="bg-(--cream)">

@@ -327,16 +327,16 @@ export default function Navbar() {
     >
       {/* three columns: links | centred logo | links + button */}
       <nav className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-2">
-        <Link href="/" className="block" onClick={closeAll}>
-         <Image
-  src="/images/aurevon-logo.jpg"
-  alt="Aurevon Global Partners"
-  width={400}
-  height={120}
-  priority
-  className="h-20 w-auto md:h-24"
-/>
-        </Link>
+    <Link href="/" className="block" onClick={closeAll}>
+  <Image
+    src="/images/aurevon-logo.jpg"
+    alt="Aurevon Global Partners"
+    width={400}
+    height={120}
+    priority
+    className="h-24 w-auto md:h-32"
+  />
+</Link>
 
         <div className="flex items-center gap-4 md:gap-8">
           {/* Desktop links */}
