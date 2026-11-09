@@ -1,7 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
+import { Inter, Playfair_Display } from "next/font/google";
 import Reveal from "../components/reveal-box";
+
+/* Fonts: Playfair Display for headings, Inter for body text */
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  display: "swap",
+});
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 export const metadata = {
   title: "About | Aurevon Global Partners",
@@ -20,6 +33,10 @@ const palette = {
   "--paper": "#f3ead6",
   "--sky": "#cfe5f4",
   "--aegean": "#1d7db5",
+  /* Font mapping: font-serif = Playfair Display (headings), font-sans = Inter (body) */
+  "--font-serif": "var(--font-playfair), Georgia, serif",
+  "--font-sans":
+    "var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif",
 } as CSSProperties;
 
 /* EDIT HERE: your photos. Put files in public/images/ and set the path.
@@ -365,74 +382,82 @@ const team = [
 
 export default function AboutPage() {
   return (
-    <main className="bg-(--cream) text-(--navy)" style={palette}>
+       <main
+      className={`${playfair.variable} ${inter.variable} bg-(--cream) text-(--navy) not-italic`}
+      style={{
+        ...palette,
+        fontFamily:
+          "var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif",
+      }}
+    >
       {/* ───────── HERO · sky to sunset ───────── */}
-<section className="relative overflow-hidden bg-linear-to-b from-(--sky) via-[#f6efe0] to-[#f4d9a8] pt-44 md:pt-64">        <div
+      <section className="relative overflow-hidden bg-linear-to-b from-(--sky) via-[#f6efe0] to-[#f4d9a8] pt-44 md:pt-64">
+        <div
           aria-hidden
           className="absolute inset-0"
           style={glow("85% 85%", 0.45)}
         />
         <div className="relative mx-auto grid max-w-6xl items-center gap-16 px-6 pb-24 md:pb-32 lg:grid-cols-12">
-       <div className="lg:col-span-5">
-  <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-(--navy)/70">
-    Greece property &amp; residency opportunities
-  </p>
-  <h1 className="mt-5 font-serif text-3xl font-bold uppercase leading-[1.05] tracking-tight text-(--navy) md:text-4xl">
-    About
-    <span className="block bg-linear-to-b from-(--gold-light) to-(--gold-dark) bg-clip-text text-transparent">
-      Aurevon
-    </span>
-  </h1>
-  <p className="mt-5 max-w-md text-sm leading-relaxed text-(--navy)/80 md:text-base">
-    Aurevon Global Partners connects Philippine investors and
-    families with selected property opportunities in Greece. We help
-    you explore ownership, potential rental income and residency
-    pathways for eligible family members through practical
-    coordination and professional introductions.
-  </p>
-  <div className="mt-8 flex flex-wrap gap-3">
-    <Link
-      href="/contact"
-      className="bg-(--navy) px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.15em] text-white shadow-lg transition hover:bg-(--gold-dark)"
-    >
-      Discuss your requirements
-    </Link>
-    <a
-      href="#team"
-      className="border border-(--navy)/40 bg-white/40 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.15em] backdrop-blur transition hover:border-(--gold) hover:text-(--gold-dark)"
-    >
-      Meet the team
-    </a>
-  </div>
-</div>
+          <div className="lg:col-span-5">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-(--navy)/70">
+              Greece property &amp; residency opportunities
+            </p>
+            <h1 className="mt-5 font-serif text-3xl font-bold uppercase leading-[1.05] tracking-tight text-(--navy) md:text-4xl">
+              About
+              <span className="block bg-linear-to-b from-(--gold-light) to-(--gold-dark) bg-clip-text text-transparent">
+                Aurevon
+              </span>
+            </h1>
+            <p className="mt-5 max-w-md text-sm leading-relaxed text-(--navy)/80 md:text-base">
+              Aurevon Global Partners connects Philippine investors and
+              families with selected property opportunities in Greece. We help
+              you explore ownership, potential rental income and residency
+              pathways for eligible family members through practical
+              coordination and professional introductions.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link
+                href="/contact"
+                className="bg-(--navy) px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.15em] text-white shadow-lg transition hover:bg-(--gold-dark)"
+              >
+                Discuss your requirements
+              </Link>
+              <a
+                href="#team"
+                className="border border-(--navy)/40 bg-white/40 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.15em] backdrop-blur transition hover:border-(--gold) hover:text-(--gold-dark)"
+              >
+                Meet the team
+              </a>
+            </div>
+          </div>
 
           <ul className="mx-auto grid w-full max-w-2xl grid-cols-3 gap-3 sm:gap-5 lg:col-span-7 lg:max-w-none">
             {team.map((m, i) => (
-       <li
-  key={m.id}
-  className={`min-w-0 text-center ${
-    i === 1 ? "lg:-translate-y-8" : "lg:translate-y-4"
-  }`}
->
-  <a
-    href={`#${m.id}`}
-    aria-label={`Read more about ${m.name}`}
-    className="group block"
-  >
-    <Photo
-      id={m.id}
-      arch
-      label={`${m.name}, ${m.role}`}
-      className="aspect-3/4 w-full transition duration-500 group-hover:-translate-y-1.5 group-hover:shadow-[0_30px_60px_-20px_rgba(16,35,94,0.55)]"
-    />
-   <p className="mt-4 font-serif text-sm font-bold text-(--navy) transition group-hover:text-(--gold-dark) sm:text-lg">
-  {m.name}
-</p>
-<p className="mx-auto mt-1 max-w-[24ch] text-balance font-serif text-[11px] font-medium leading-snug text-(--gold-dark)/90 sm:min-h-[2.6em] sm:text-sm">
-  {m.role}
-</p>
-  </a>
-</li>
+              <li
+                key={m.id}
+                className={`min-w-0 text-center ${
+                  i === 1 ? "lg:-translate-y-8" : "lg:translate-y-4"
+                }`}
+              >
+                <a
+                  href={`#${m.id}`}
+                  aria-label={`Read more about ${m.name}`}
+                  className="group block"
+                >
+                  <Photo
+                    id={m.id}
+                    arch
+                    label={`${m.name}, ${m.role}`}
+                    className="aspect-3/4 w-full transition duration-500 group-hover:-translate-y-1.5 group-hover:shadow-[0_30px_60px_-20px_rgba(16,35,94,0.55)]"
+                  />
+                  <p className="mt-4 font-serif text-sm font-bold text-(--navy) transition group-hover:text-(--gold-dark) sm:text-lg">
+                    {m.name}
+                  </p>
+                  <p className="mx-auto mt-1 max-w-[24ch] text-balance font-serif text-[11px] font-medium leading-snug text-(--gold-dark)/90 sm:min-h-[2.6em] sm:text-sm">
+                    {m.role}
+                  </p>
+                </a>
+              </li>
             ))}
           </ul>
         </div>
@@ -660,64 +685,64 @@ export default function AboutPage() {
         </Reveal>
       </section>
 
-{/* ───────── VISION & MISSION ───────── */}
-<section className="relative bg-(--cream)">
-  <Paper />
-  <Reveal className="relative mx-auto max-w-6xl px-6 py-20 md:py-28">
-    <Title center title="Vision & mission" sub="Where we are going, and how" />
+      {/* ───────── VISION & MISSION ───────── */}
+      <section className="relative bg-(--cream)">
+        <Paper />
+        <Reveal className="relative mx-auto max-w-6xl px-6 py-20 md:py-28">
+          <Title center title="Vision & mission" sub="Where we are going, and how" />
 
-    <div className="mt-14 grid gap-8 lg:grid-cols-2 lg:gap-10">
-      {vm.map((c) => (
-        <article
-          key={c.label}
-          className={`relative flex overflow-hidden p-3 shadow-[0_30px_60px_-35px_rgba(16,35,94,0.5)] ${
-            c.dark ? "bg-(--navy) text-white" : "bg-white"
-          }`}
-          style={c.dark ? glow("100% 100%", 0.25) : undefined}
-        >
-          <div
-            className={`flex flex-1 flex-col items-center border px-8 py-12 text-center md:px-12 md:py-14 ${
-              c.dark ? "border-(--gold-light)/40" : "border-(--gold)/50"
-            }`}
-          >
-            <Badge name={c.icon} />
-            <span
-              className={`mt-6 font-serif text-sm font-semibold tracking-[0.5em] ${
-                c.dark ? "text-(--gold-light)" : "text-(--gold)"
-              }`}
-            >
-              {c.n}
-            </span>
-            <h3 className="mt-2 font-serif text-3xl font-bold uppercase md:text-4xl">
-              {c.label}
-            </h3>
-            <span
-              aria-hidden
-              className="mt-6 block h-4 w-32 opacity-80"
-              style={meander(c.dark ? "%23e2b862" : "%23b9791f")}
-            />
-            <p
-              className={`mt-6 font-serif text-xl italic leading-snug md:text-2xl ${
-                c.dark ? "text-(--gold-light)" : "text-(--gold-dark)"
-              }`}
-            >
-              {c.lead}
-            </p>
-            <div
-              className={`mt-6 space-y-4 text-sm leading-relaxed ${
-                c.dark ? "text-white/75" : "text-(--navy)/70"
-              }`}
-            >
-              {c.body.map((p) => (
-                <p key={p}>{p}</p>
-              ))}
-            </div>
+          <div className="mt-14 grid gap-8 lg:grid-cols-2 lg:gap-10">
+            {vm.map((c) => (
+              <article
+                key={c.label}
+                className={`relative flex overflow-hidden p-3 shadow-[0_30px_60px_-35px_rgba(16,35,94,0.5)] ${
+                  c.dark ? "bg-(--navy) text-white" : "bg-white"
+                }`}
+                style={c.dark ? glow("100% 100%", 0.25) : undefined}
+              >
+                <div
+                  className={`flex flex-1 flex-col items-center border px-8 py-12 text-center md:px-12 md:py-14 ${
+                    c.dark ? "border-(--gold-light)/40" : "border-(--gold)/50"
+                  }`}
+                >
+                  <Badge name={c.icon} />
+                  <span
+                    className={`mt-6 font-serif text-sm font-semibold tracking-[0.5em] ${
+                      c.dark ? "text-(--gold-light)" : "text-(--gold)"
+                    }`}
+                  >
+                    {c.n}
+                  </span>
+                  <h3 className="mt-2 font-serif text-3xl font-bold uppercase md:text-4xl">
+                    {c.label}
+                  </h3>
+                  <span
+                    aria-hidden
+                    className="mt-6 block h-4 w-32 opacity-80"
+                    style={meander(c.dark ? "%23e2b862" : "%23b9791f")}
+                  />
+                  <p
+                    className={`mt-6 font-serif text-xl leading-snug md:text-2xl ${
+                      c.dark ? "text-(--gold-light)" : "text-(--gold-dark)"
+                    }`}
+                  >
+                    {c.lead}
+                  </p>
+                  <div
+                    className={`mt-6 space-y-4 text-sm leading-relaxed ${
+                      c.dark ? "text-white/75" : "text-(--navy)/70"
+                    }`}
+                  >
+                    {c.body.map((p) => (
+                      <p key={p}>{p}</p>
+                    ))}
+                  </div>
+                </div>
+              </article>
+            ))}
           </div>
-        </article>
-      ))}
-    </div>
-  </Reveal>
-</section>
+        </Reveal>
+      </section>
 
       {/* ───────── COMMITMENT · paper ───────── */}
       <section className="relative bg-(--paper)">
@@ -792,161 +817,225 @@ export default function AboutPage() {
         </Reveal>
       </section>
 
-{/* ───────── TEAM · cream, alternating split cards ───────── */}
-<section id="team" className="relative scroll-mt-20 bg-(--cream)">
-  <Paper />
-  <div className="relative mx-auto max-w-6xl px-6 py-20 md:py-28">
-    <Reveal>
-      <Title
-        center
-        title="Meet the people behind Aurevon"
-        sub="Experience. Expertise. Trust. International Connections."
-      />
-      <div className="mx-auto mt-6 max-w-3xl space-y-4 text-center leading-relaxed text-(--navy)/75">
-        <p>
-          At AUREVON Global Partners, we believe successful international
-          property investments begin with trusted relationships and
-          experienced professionals.
-        </p>
-        <p>
-          Our team brings together architectural expertise, international
-          tourism experience, business management, and personalized client
-          services. With professional roots in Germany and international
-          connections, we are dedicated to helping clients confidently
-          explore property investment and residency opportunities in Greece.
-        </p>
-      </div>
-    </Reveal>
+      {/* ───────── TEAM · cream, alternating split cards ───────── */}
+      <section id="team" className="relative scroll-mt-20 bg-(--cream)">
+        <Paper />
+        <div className="relative mx-auto max-w-6xl px-6 py-20 md:py-28">
+          <Reveal>
+            <Title
+              center
+              title="Meet the people behind Aurevon"
+              sub="Experience. Expertise. Trust. International Connections."
+            />
+            <div className="mx-auto mt-6 max-w-3xl space-y-4 text-center leading-relaxed text-(--navy)/75">
+              <p>
+                At AUREVON Global Partners, we believe successful international
+                property investments begin with trusted relationships and
+                experienced professionals.
+              </p>
+              <p>
+                Our team brings together architectural expertise, international
+                tourism experience, business management, and personalized client
+                services. With professional roots in Germany and international
+                connections, we are dedicated to helping clients confidently
+                explore property investment and residency opportunities in Greece.
+              </p>
+            </div>
+          </Reveal>
 
-    <ul className="mt-16 space-y-16 md:space-y-24">
-      {team.map((m, i) => {
-        const photoRight = i % 2 === 1;
-        const src = IMAGES[m.id];
-        return (
-   <li key={m.id} id={m.id} className="scroll-mt-28">
-  <Reveal className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-              {/* Photo */}
+          <ul className="mt-16 space-y-16 md:space-y-24">
+            {team.map((m, i) => {
+              const photoRight = i % 2 === 1;
+              const src = IMAGES[m.id];
+              return (
+                <li key={m.id} id={m.id} className="scroll-mt-28">
+                  <Reveal className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+                    {/* Photo */}
+                    <div
+                      className={`relative h-120 overflow-hidden rounded-3xl border border-(--gold)/40 bg-(--paper) shadow-[0_30px_60px_-30px_rgba(16,35,94,0.45)] md:h-144 ${
+                        photoRight ? "lg:order-2" : "lg:order-1"
+                      }`}
+                    >
+                      {src ? (
+                        <Image
+                          src={src}
+                          alt={`${m.name}, ${m.fullRole}`}
+                          fill
+                          sizes="(min-width:1024px) 50vw, 100vw"
+                          className="object-cover object-top"
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center bg-linear-to-b from-(--sky) to-(--paper)">
+                          <Icon name="user" className="h-10 w-10 text-(--aegean)/60" />
+                        </div>
+                      )}
+
+                      <div
+                        aria-hidden
+                        className={`pointer-events-none absolute inset-y-0 hidden w-1/3 from-(--cream) to-transparent lg:block ${
+                          photoRight ? "left-0 bg-linear-to-r" : "right-0 bg-linear-to-l"
+                        }`}
+                      />
+
+                      {/* name card */}
+                      <div
+                        className={`absolute bottom-6 flex max-w-[calc(100%-3rem)] items-center gap-3 rounded-xl bg-(--cream) px-6 py-4 shadow-xl ${
+                          photoRight ? "right-6" : "left-6"
+                        }`}
+                      >
+                        <Icon name="user" className="h-5 w-5 shrink-0 text-(--gold-dark)" />
+                        <div>
+                          <p className="font-serif text-lg font-bold leading-tight text-(--navy)">
+                            {m.name}
+                          </p>
+                          <p className="mt-0.5 font-serif text-sm font-semibold leading-snug text-(--gold-dark)">
+                            {m.fullRole}
+                          </p>
+                          <p className="font-serif text-sm leading-snug text-(--gold-dark)/80">
+                            {m.title}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Text */}
+                    <div className={photoRight ? "lg:order-1" : "lg:order-2"}>
+                      {/* 1. name */}
+                      <h3 className="font-serif text-3xl font-bold uppercase leading-[1.1] tracking-tight text-(--navy) md:text-4xl">
+                        {m.name}
+                      </h3>
+
+                      {/* 2. role | title */}
+                      <p className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 font-serif text-base leading-snug md:text-lg">
+                        <span className="font-bold text-(--gold-dark)">{m.fullRole}</span>
+                        <span aria-hidden className="h-4 w-px bg-(--gold)/60" />
+                        <span className="text-(--gold-dark)/80">{m.title}</span>
+                      </p>
+
+                      {/* 3. divider */}
+                      <span className="mt-5 block h-0.5 w-16 bg-linear-to-r from-(--gold) to-(--gold-light)" />
+
+                      {/* 4. bio */}
+                      <div className="mt-6 space-y-4 text-sm leading-relaxed text-(--navy)/75">
+                        {m.bio.map((p, idx) => (
+                          <p
+                            key={p}
+                            className={idx === 0 ? "text-base text-(--navy)/85" : ""}
+                          >
+                            {p}
+                          </p>
+                        ))}
+                      </div>
+
+                      {/* 5. highlights */}
+                      <ul className="mt-8 grid gap-4 border-t border-(--gold)/30 pt-6 sm:grid-cols-3">
+                        {m.points.map((pt) => (
+                          <li key={pt.t} className="flex items-start gap-3">
+                            <Icon
+                              name={pt.icon}
+                              className="mt-0.5 h-5 w-5 shrink-0 text-(--gold-dark)"
+                            />
+                            <span className="text-xs font-medium uppercase leading-snug tracking-[0.08em] text-(--navy)">
+                              {pt.t}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </Reveal>
+                </li>
+              );
+            })}
+          </ul>
+
+               {/* closing */}
+          <Reveal className="mt-24 md:mt-32">
+            <div
+              className="relative overflow-hidden border-2 border-(--gold)/60 bg-(--navy) px-6 py-16 text-center text-white shadow-[0_30px_60px_-30px_rgba(16,35,94,0.55)] md:px-16 md:py-20"
+              style={glow("50% 0%", 0.3)}
+            >
+              {/* inner gold frame */}
               <div
-                className={`relative h-120 overflow-hidden rounded-3xl border border-(--gold)/40 bg-(--paper) shadow-[0_30px_60px_-30px_rgba(16,35,94,0.45)] md:h-144 ${
-                  photoRight ? "lg:order-2" : "lg:order-1"
-                }`}
-              >
-                {src ? (
-                  <Image
-                    src={src}
-                    alt={`${m.name}, ${m.fullRole}`}
-                    fill
-                    sizes="(min-width:1024px) 50vw, 100vw"
-                    className="object-cover object-top"
+                aria-hidden
+                className="pointer-events-none absolute inset-3 border border-(--gold-light)/30"
+              />
+
+              <div className="relative">
+                {/* eyebrow flanked by meander */}
+                <div className="flex items-center justify-center gap-4">
+                  <span
+                    aria-hidden
+                    className="hidden h-4 w-20 opacity-80 sm:block"
+                    style={meander("%23e2b862")}
                   />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center bg-linear-to-b from-(--sky) to-(--paper)">
-                    <Icon name="user" className="h-10 w-10 text-(--aegean)/60" />
-                  </div>
-                )}
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.4em] text-(--gold-light)">
+                    Your vision. Our connections. Your opportunity.
+                  </p>
+                  <span
+                    aria-hidden
+                    className="hidden h-4 w-20 opacity-80 sm:block"
+                    style={meander("%23e2b862")}
+                  />
+                </div>
 
-                <div
-                  aria-hidden
-                  className={`pointer-events-none absolute inset-y-0 hidden w-1/3 from-(--cream) to-transparent lg:block ${
-                    photoRight ? "left-0 bg-linear-to-r" : "right-0 bg-linear-to-l"
-                  }`}
-                />
+                <h3 className="mx-auto mt-8 max-w-3xl text-balance font-serif text-3xl font-bold leading-[1.1] tracking-tight md:text-5xl">
+                  Discover Greece with
+                  <span className="mt-2 block bg-linear-to-b from-(--gold-light) to-(--gold) bg-clip-text text-transparent">
+                    AUREVON Global Partners.
+                  </span>
+                </h3>
 
-      {/* name card */}
-<div
-  className={`absolute bottom-6 flex max-w-[calc(100%-3rem)] items-center gap-3 rounded-xl bg-(--cream) px-6 py-4 shadow-xl ${
-    photoRight ? "right-6" : "left-6"
-  }`}
->
-  <Icon name="user" className="h-5 w-5 shrink-0 text-(--gold-dark)" />
-  <div>
-    <p className="font-serif text-lg font-bold leading-tight text-(--navy)">
-      {m.name}
-    </p>
-    <p className="mt-0.5 font-serif text-sm font-semibold leading-snug text-(--gold-dark)">
-      {m.fullRole}
-    </p>
-    <p className="font-serif text-sm italic leading-snug text-(--gold-dark)/80">
-      {m.title}
-    </p>
-  </div>
-</div>
+                <span className="mx-auto mt-8 block h-0.5 w-16 bg-linear-to-r from-(--gold) to-(--gold-light)" />
+
+                <p className="mx-auto mt-8 max-w-2xl text-balance leading-relaxed text-white/75 md:text-lg">
+                  From your first property inquiry to coordination with trusted
+                  local professionals, our team is committed to providing
+                  personalized attention, transparent communication, and
+                  professional support.
+                </p>
+
+                {/* tagline as three pillars */}
+                <ul className="mx-auto mt-12 grid max-w-4xl gap-8 sm:grid-cols-3 sm:gap-0">
+                  {[
+                    { icon: "eye" as const, t: "Explore", d: "opportunities" },
+                    { icon: "handshake" as const, t: "Build", d: "connections" },
+                    { icon: "key" as const, t: "Discover", d: "possibilities" },
+                  ].map((s) => (
+                    <li
+                      key={s.t}
+                      className="flex flex-col items-center gap-3 sm:border-l sm:border-(--gold)/30 sm:first:border-l-0"
+                    >
+                      <Badge name={s.icon} size="h-12 w-12" />
+                      <p className="font-serif text-xl font-bold uppercase tracking-wide">
+                        {s.t}
+                      </p>
+                      <p className="-mt-2 text-[11px] font-medium uppercase tracking-[0.25em] text-(--gold-light)">
+                        {s.d}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* CTAs */}
+                <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
+                  <Link
+                    href="/contact"
+                    className="bg-linear-to-b from-(--gold-light) to-(--gold) px-8 py-3.5 text-xs font-semibold uppercase tracking-[0.15em] text-white shadow-lg transition hover:brightness-110"
+                  >
+                    Discuss your requirements
+                  </Link>
+                  <a
+                    href="#overview"
+                    className="border border-(--gold-light)/50 px-8 py-3.5 text-xs font-semibold uppercase tracking-[0.15em] text-white transition hover:border-(--gold-light) hover:text-(--gold-light)"
+                  >
+                    Read our story
+                  </a>
+                </div>
               </div>
-
-    {/* Text */}
-<div className={photoRight ? "lg:order-1" : "lg:order-2"}>
-  {/* 1. name */}
-  <h3 className="font-serif text-3xl font-bold uppercase leading-[1.1] tracking-tight text-(--navy) md:text-4xl">
-    {m.name}
-  </h3>
-
-  {/* 2. role | title */}
-  <p className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 font-serif text-base leading-snug md:text-lg">
-    <span className="font-bold text-(--gold-dark)">{m.fullRole}</span>
-    <span aria-hidden className="h-4 w-px bg-(--gold)/60" />
-    <span className="italic text-(--gold-dark)/80">{m.title}</span>
-  </p>
-
-  {/* 3. divider */}
-  <span className="mt-5 block h-0.5 w-16 bg-linear-to-r from-(--gold) to-(--gold-light)" />
-
-  {/* 4. bio */}
-  <div className="mt-6 space-y-4 text-sm leading-relaxed text-(--navy)/75">
-    {m.bio.map((p, idx) => (
-      <p
-        key={p}
-        className={idx === 0 ? "text-base text-(--navy)/85" : ""}
-      >
-        {p}
-      </p>
-    ))}
-  </div>
-
-  {/* 5. highlights */}
-  <ul className="mt-8 grid gap-4 border-t border-(--gold)/30 pt-6 sm:grid-cols-3">
-    {m.points.map((pt) => (
-      <li key={pt.t} className="flex items-start gap-3">
-        <Icon
-          name={pt.icon}
-          className="mt-0.5 h-5 w-5 shrink-0 text-(--gold-dark)"
-        />
-        <span className="text-xs font-medium uppercase leading-snug tracking-[0.08em] text-(--navy)">
-          {pt.t}
-        </span>
-      </li>
-    ))}
-  </ul>
-</div>
-            </Reveal>
-          </li>
-        );
-      })}
-    </ul>
-
-    {/* closing */}
-    <Reveal className="mt-20 text-center">
-      <span
-        aria-hidden
-        className="mx-auto mb-8 block h-4 w-40 opacity-80"
-        style={meander()}
-      />
-      <p className="text-[11px] font-semibold uppercase tracking-[0.4em] text-(--gold-dark)">
-        Your vision. Our connections. Your opportunity.
-      </p>
-      <h3 className="mx-auto mt-5 max-w-2xl font-serif text-2xl font-bold text-(--navy) md:text-4xl">
-        Discover Greece with AUREVON Global Partners.
-      </h3>
-      <p className="mx-auto mt-5 max-w-2xl leading-relaxed text-(--navy)/75">
-        From your first property inquiry to coordination with trusted local
-        professionals, our team is committed to providing personalized
-        attention, transparent communication, and professional support.
-      </p>
-      <p className="mt-6 font-serif text-lg italic text-(--gold-dark) md:text-xl">
-        Explore opportunities. Build connections. Discover possibilities.
-      </p>
-    </Reveal>
-  </div>
-</section>
+            </div>
+          </Reveal>
+        </div>
+      </section>
 
       {/* ───────── PRINCIPLES · navy ───────── */}
       <div className="bg-(--cream)">
