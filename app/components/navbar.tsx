@@ -326,15 +326,15 @@ export default function Navbar() {
       className="fixed inset-x-0 top-0 z-30 border-b border-(--gold)/40 bg-white shadow-sm"
     >
       {/* three columns: links | centred logo | links + button */}
-      <nav className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-2">
-    <Link href="/" className="block" onClick={closeAll}>
+    <nav className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-1">
+<Link href="/" className="block" onClick={closeAll}>
   <Image
     src="/images/aurevon-logo.jpg"
     alt="Aurevon Global Partners"
     width={400}
     height={120}
     priority
-    className="h-24 w-auto md:h-32"
+    className="h-28 w-auto contrast-125 saturate-150 md:h-40"
   />
 </Link>
 
@@ -379,9 +379,11 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile panel */}
+  
+         {/* Mobile panel */}
       {menuOpen && (
-<div className="max-h-[calc(100vh-7rem)] overflow-y-auto border-t border-(--gold)/30 bg-white md:hidden">          <ul className="mx-auto max-w-6xl px-6 py-4">
+        <div className="max-h-[calc(100vh-9rem)] overflow-y-auto border-t border-(--gold)/30 bg-white md:hidden">
+          <ul className="mx-auto max-w-6xl px-6 py-4">
             {mobileLinks.map((l) => (
               <li
                 key={l.href}

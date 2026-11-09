@@ -318,11 +318,11 @@ const team = [
     title: "Architect & Business Leader",
     bio: [
       "An established architect based in Passau, Germany, Peter Kemper brings more than a decade of experience in architecture, property development, and business management.",
-      "As the founder of an architectural business serving the Passau region for over 10 years, he contributes valuable expertise in property evaluation, design, development, and strategic planning.",
+      "As the founder of an architectural business serving the Passau region for over 20 years, he contributes valuable expertise in property evaluation, design, development, and strategic planning.",
       "At AUREVON Global Partners, Peter leads the company’s strategic direction, international partnerships, and business development, combining his architectural background with a long-term vision for international property opportunities.",
     ],
     points: [
-      { icon: "home" as const, t: "10+ years in architecture" },
+      { icon: "home" as const, t: "20+ years in architecture" },
       { icon: "eye" as const, t: "Property evaluation & development" },
       { icon: "handshake" as const, t: "Strategy & partnerships" },
     ],

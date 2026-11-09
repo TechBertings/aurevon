@@ -266,13 +266,13 @@ export default function Footer() {
       <div className="relative bg-(--cream) px-6 pb-8 pt-12 text-center">
         <Reveal3D variant="zoom" duration={1300}>
     <Tilt3D max={6} className="inline-block">
-  <Image
-    src="/images/aurevon_logo_rbg.png"
-    alt="Aurevon Global Partners"
-    width={800}
-    height={240}
-    className="h-40 w-auto md:h-60"
-  />
+<Image
+  src="/images/aurevon_logo_rbg.png"
+  alt="Aurevon Global Partners"
+  width={800}
+  height={240}
+  className="h-40 w-auto contrast-125 saturate-150 drop-shadow-[0_0_0.5px_rgba(15,27,61,0.9)] md:h-60"
+/>
 </Tilt3D>
         </Reveal3D>
         <div
