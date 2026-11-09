@@ -5,10 +5,8 @@ import {
   Icon,
   Marquee,
   Paper,
-  Parallax,
   Ph,
   Reveal,
-  Tilt,
   Title,
   Wave,
   Words,
@@ -307,6 +305,148 @@ const properties: Property[] = [
     stats: [{ n: "6,020 m²", l: "Plot" }, { n: "100 m²", l: "Pool" }],
     price: "On request",
   },
+    /* ── Piraeus ── */
+  {
+    slug: "piraeus/ground-floor-43",
+    src: "/images/piraeus-ground-floor-interior-3.png", // ← palitan
+    name: "Piraeus Ground Floor",
+    tag: "Apartments",
+    facts: ["Piraeus, Athens", "Ground floor", "Apartment"], // ← palitan
+    stats: [{ n: "—", l: "Bedrooms" }, { n: "43 m²", l: "Living" }],
+    price: "On request",
+  },
+  {
+    slug: "piraeus/ground-floor-94",
+    src: "/images/piraeus-ground-floor-interior-94sqm-6.png", // ← palitan
+    name: "Piraeus Ground Floor",
+    tag: "Apartments",
+    facts: ["Piraeus, Athens", "Ground floor", "Apartment"], // ← palitan
+    stats: [{ n: "—", l: "Bedrooms" }, { n: "94 m²", l: "Living" }],
+    price: "On request",
+  },
+  {
+    slug: "piraeus/first-floor-71",
+    src: "/images/piraeus-first-floor-interior-71sqm-6.png", // ← palitan
+    name: "Piraeus 1st Floor",
+    tag: "Apartments",
+    facts: ["Piraeus, Athens", "1st floor", "Apartment"], // ← palitan
+    stats: [{ n: "—", l: "Bedrooms" }, { n: "71 m²", l: "Living" }],
+    price: "On request",
+  },
+  {
+    slug: "piraeus/apartment-101",
+    src: "/images/piraeus-cover.png", // ← palitan
+    name: "Piraeus Apartment",
+    tag: "Apartments",
+    facts: ["Piraeus, Athens", "Apartment", "Spacious layout"], // ← palitan
+    stats: [{ n: "—", l: "Bedrooms" }, { n: "101 m²", l: "Living" }],
+    price: "On request",
+  },
+
+  /* ── Pagrati ── */
+  {
+    slug: "pagrati/studio-40",
+    src: "/images/pagrati-menelaou-cover.png", // ← palitan
+    name: "Pagrati Studio",
+    tag: "Apartments",
+    facts: ["Pagrati, Athens", "Studio", "Central location"], // ← palitan
+    stats: [{ n: "Studio", l: "Type" }, { n: "40 m²", l: "Living" }],
+    price: "On request",
+  },
+  {
+    slug: "pagrati/evmenous-82",
+    src: "/images/pagrati-evmenous-cover.png", // ← palitan
+    name: "Pagrati Evmenous",
+    tag: "Apartments",
+    facts: ["Pagrati, Athens", "Apartment", "Central location"], // ← palitan
+    stats: [{ n: "—", l: "Bedrooms" }, { n: "82 m²", l: "Living" }],
+    price: "On request",
+  },
+  {
+    slug: "pagrati/aspasias-48",
+    src: "/images/pagrati-aspasias-interior-1.png", // ← palitan
+    name: "Pagrati Aspasias",
+    tag: "Apartments",
+    facts: ["Pagrati, Athens", "Apartment", "Central location"], // ← palitan
+    stats: [{ n: "—", l: "Bedrooms" }, { n: "48 m²", l: "Living" }],
+    price: "On request",
+  },
+
+  /* ── Votanikos ── */
+  {
+    slug: "votanikos/kozanis-45",
+    src: "/images/votanikos-cover.png", // ← palitan
+    name: "Kozanis Loft",
+    tag: "Apartments",
+    facts: ["Votanikos, Athens", "Loft", "Apartment"], // ← palitan
+    stats: [{ n: "Loft", l: "Type" }, { n: "45 m²", l: "Living" }],
+    price: "On request",
+  },
+  {
+    slug: "votanikos/agias-markellas-68",
+    src: "/images/votanikos-markellas-cover.png", // ← palitan
+    name: "Agias Markellas",
+    tag: "Apartments",
+    facts: ["Votanikos, Athens", "Apartment", "Central location"], // ← palitan
+    stats: [{ n: "—", l: "Bedrooms" }, { n: "68 m²", l: "Living" }],
+    price: "On request",
+  },
+
+  /* ── Single apartments ── */
+  {
+    slug: "katechaki",
+    src: "/images/katechaki-cover.png", // ← palitan
+    name: "Katechaki",
+    tag: "Apartments",
+    facts: ["Athens", "Apartment", "Central location"], // ← palitan
+    stats: [{ n: "—", l: "Bedrooms" }, { n: "—", l: "Living" }], // ← palitan
+    price: "On request",
+  },
+  {
+    slug: "glaraki",
+    src: "/images/glaraki-cover.png", // ← palitan
+    name: "Glaraki",
+    tag: "Apartments",
+    facts: ["Athens", "Apartment", "Central location"], // ← palitan
+    stats: [{ n: "—", l: "Bedrooms" }, { n: "—", l: "Living" }], // ← palitan
+    price: "On request",
+  },
+  {
+    slug: "petralona",
+    src: "/images/petralona-terrace.png", // ← palitan
+    name: "Petralona",
+    tag: "Apartments",
+    facts: ["Petralona, Athens", "Apartment", "Central location"], // ← palitan
+    stats: [{ n: "—", l: "Bedrooms" }, { n: "—", l: "Living" }], // ← palitan
+    price: "On request",
+  },
+  {
+    slug: "areios-pagos",
+    src: "/images/areios-pagos-cover.png", // ← palitan
+    name: "Areios Pagos",
+    tag: "Apartments",
+    facts: ["Athens", "Apartment", "Near the Acropolis"], // ← palitan
+    stats: [{ n: "—", l: "Bedrooms" }, { n: "—", l: "Living" }], // ← palitan
+    price: "On request",
+  },
+  {
+    slug: "kato-pasia",
+    src: "/images/kato-patisia-cover.png", // ← palitan
+    name: "Kato Pasia",
+    tag: "Apartments",
+    facts: ["Athens", "Apartment", "Central location"], // ← palitan
+    stats: [{ n: "—", l: "Bedrooms" }, { n: "—", l: "Living" }], // ← palitan
+    price: "On request",
+  },
+  {
+    slug: "korinthos",
+    src: "/images/korinthos-cover.png", // ← palitan
+    name: "Korinthos",
+    tag: "Apartments",
+    facts: ["Korinthos", "Apartment", "Near the coast"], // ← palitan
+    stats: [{ n: "—", l: "Bedrooms" }, { n: "—", l: "Living" }], // ← palitan
+    price: "On request",
+  },
 ];
 
 
@@ -398,86 +538,24 @@ export default function Home() {
               </Reveal>
             </div>
 
-            {/* floating collage: each piece moves at its own speed */}
-            <div className="relative mx-auto h-560p] w-full max-w-md lg:col-span-6 lg:max-w-none">
-              <Parallax speed={0.1} className="absolute right-0 top-0 w-[58%]">
-                <Reveal variant="wipe-up" duration={1100}>
-                  <Tilt>
-                    <Ph
-                      src={IMAGES.intro1}
-                      label="Whitewashed villa"
-                      tone="sunset"
-                      arch
-                      priority
-                      className="aspect-3/4 w-full"
-                    />
-                  </Tilt>
-                </Reveal>
-              </Parallax>
-
-              <Parallax
-                speed={-0.06}
-                className="absolute bottom-0 left-0 w-[56%]"
-              >
-                <Reveal variant="left" delay={250}>
-                  <Tilt max={6}>
-                    <Ph
-                      src={IMAGES.pool}
-                      label="Terrace and pool"
-                      tone="pool"
-                      speed={0.04}
-                      className="aspect-4/3 w-full"
-                    />
-                  </Tilt>
-                </Reveal>
-              </Parallax>
-
-              <Parallax speed={0.2} className="absolute left-[6%] top-[6%] w-[30%]">
-                <Reveal variant="zoom" delay={500}>
-                  <div
-                    className="fx-anim"
-                    style={{ animation: "fx-float 7s ease-in-out infinite" }}
-                  >
-                    <Ph
-                      src={IMAGES.stone}
-                      label="Stone detail"
-                      tone="stone"
-                      speed={0.03}
-                      className="aspect-square w-full"
-                    />
-                  </div>
-                </Reveal>
-              </Parallax>
-
-              {/* rotating seal */}
-              <div
-                aria-hidden
-                className="absolute left-[42%] top-[50%] z-10 flex h-32 w-32 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-(--navy) shadow-2xl"
-              >
-                <svg
-                  viewBox="0 0 120 120"
-                  className="fx-anim absolute inset-0 h-full w-full"
-                  style={{ animation: "fx-spin 22s linear infinite" }}
-                >
-                  <defs>
-                    <path
-                      id="fx-seal"
-                      d="M60 60 m-44 0 a44 44 0 1 1 88 0 a44 44 0 1 1 -88 0"
-                    />
-                  </defs>
-                  <text
-                    fontSize="9.5"
-                    letterSpacing="3.2"
-                    className="fill-(--gold-light) font-semibold uppercase"
-                  >
-                    <textPath href="#fx-seal">
-                      Live · Invest · Build your future ·
-                    </textPath>
-                  </text>
-                </svg>
-                <Icon name="home" className="h-8 w-8 text-(--gold-light)" />
-              </div>
-            </div>
+    {/* two-frame image */}
+<div className="relative mx-auto w-full max-w-md pb-10 lg:col-span-6 lg:max-w-none">
+  <Ph
+    src={IMAGES.pool}
+    label="Terrace and pool"
+    tone="pool"
+    speed={0}
+    priority
+    className="ml-auto aspect-4/3 w-[80%]"
+  />
+  <Ph
+    src={IMAGES.stone}
+    label="Acropolis at sunset"
+    tone="stone"
+    speed={0}
+    className="absolute bottom-0 left-0 aspect-square w-[46%]"
+  />
+</div>
           </div>
         </section>
 

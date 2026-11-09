@@ -10,6 +10,11 @@ const jost = Jost({ subsets: ["latin"], variable: "--font-jost" });
 export const metadata: Metadata = {
   title: "Aurevon Global Partners",
   description: "Property investment and residency opportunities.",
+  icons: {
+    icon: "/images/aurevon-logo-remove-bg.jpg",
+    shortcut: "/images/aurevon-logo-remove-bg.jpg",
+    apple: "/images/aurevon-logo-remove-bg.jpg",
+  },
 };
 
 export default function RootLayout({

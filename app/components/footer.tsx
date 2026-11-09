@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, type CSSProperties } from "react";
+import { useState, useEffect, type CSSProperties, type ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Marquee, Reveal3D, Tilt3D } from "./scroll-3d";
@@ -24,16 +24,53 @@ const LINKS = [
   { label: "Contact", href: "/contact" },
 ];
 
-/* EDIT HERE: same routes as the navbar dropdown */
-const PROPERTIES = [
+/* EDIT HERE: same routes as the navbar dropdown (sold apartments not included).
+   A plain item is one link. An item with `items` becomes a click-to-open group. */
+type FooterItem = { label: string; href: string };
+type FooterGroup = { label: string; items: FooterItem[] };
+
+const PROPERTIES: (FooterItem | FooterGroup)[] = [
   { label: "Seizani Loft", href: "/apartments/seizani_loft" },
   { label: "Santa Sophia", href: "/apartments/santa_sophia" },
   { label: "Pythagoras", href: "/apartments/pythagoras" },
-  { label: "Piraeus Olynthou", href: "/apartments/piraeus_olynthou" },
+  {
+    label: "Piraeus",
+    items: [
+      { label: "Olynthou", href: "/apartments/piraeus_olynthou" },
+      { label: "Ground Floor 43 m²", href: "/apartments/piraeus/ground-floor-43" },
+      { label: "Ground Floor 94 m²", href: "/apartments/piraeus/ground-floor-94" },
+      { label: "1st Floor 71 m²", href: "/apartments/piraeus/first-floor-71" },
+      { label: "Apartment 101 m²", href: "/apartments/piraeus/apartment-101" },
+    ],
+  },
   { label: "Drapetsona", href: "/apartments/drapetsona" },
   { label: "Sea View Villa", href: "/apartments/sea-view-villa" },
   { label: "Villa Porto Rafti", href: "/apartments/villa-porto-rafti" },
+  {
+    label: "Pagrati",
+    items: [
+      { label: "Studio 40 m²", href: "/apartments/pagrati/studio-40" },
+      { label: "Evmenous 82 m²", href: "/apartments/pagrati/evmenous-82" },
+      { label: "Aspasias 48 m²", href: "/apartments/pagrati/aspasias-48" },
+    ],
+  },
+  { label: "Katechaki", href: "/apartments/katechaki" },
+  {
+    label: "Votanikos",
+    items: [
+      { label: "Kozanis Loft 45 m²", href: "/apartments/votanikos/kozanis-45" },
+      { label: "Agias Markellas 68 m²", href: "/apartments/votanikos/agias-markellas-68" },
+    ],
+  },
+  { label: "Glaraki", href: "/apartments/glaraki" },
+  { label: "Petralona", href: "/apartments/petralona" },
+  { label: "Areios Pagos", href: "/apartments/areios-pagos" },
+  { label: "Kato Pasia", href: "/apartments/kato-pasia" },
+  { label: "Korinthos", href: "/apartments/korinthos" },
 ];
+
+/* EDIT HERE: how many apartment rows show before "Show more" */
+const VISIBLE_COUNT = 6;
 
 /* EDIT HERE: contact details */
 const PHONES = [
@@ -71,6 +108,129 @@ const Dash = () => (
     className="h-px w-4 shrink-0 bg-(--gold) transition-all duration-300 group-hover:w-8"
   />
 );
+
+const Chevron = ({ open }: { open: boolean }) => (
+  <svg
+    aria-hidden
+    viewBox="0 0 10 6"
+    className={`h-1.5 w-2.5 shrink-0 transition-transform duration-300 ${
+      open ? "rotate-180" : ""
+    }`}
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+  >
+    <path d="M1 1l4 4 4-4" />
+  </svg>
+);
+
+/* Smooth open/close. Closed content is hidden from keyboard and screen readers too. */
+function Collapse({ open, children }: { open: boolean; children: ReactNode }) {
+  return (
+    <div
+      className={`grid transition-[grid-template-rows] duration-300 ease-out ${
+        open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+      }`}
+    >
+      <div className={`overflow-hidden ${open ? "" : "invisible"}`}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+/* A group (Piraeus, Pagrati, Votanikos): click to open its list */
+function Group({ group }: { group: FooterGroup }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <li>
+      <button
+        type="button"
+        aria-expanded={open}
+        onClick={() => setOpen((v) => !v)}
+        className={`group flex w-full items-center justify-between gap-3 text-left transition hover:text-(--gold-light) ${
+          open ? "text-(--gold-light)" : "text-white/80"
+        }`}
+      >
+        <span className="inline-flex items-center gap-3">
+          <Dash />
+          {group.label}
+          <span className="text-[10px] text-white/40">
+            {group.items.length}
+          </span>
+        </span>
+        <Chevron open={open} />
+      </button>
+      <Collapse open={open}>
+        <ul className="mt-2 space-y-2 border-l border-(--gold)/40 pb-1 pl-4">
+          {group.items.map((g) => (
+            <li key={g.href}>
+              <Link href={g.href} className={`${navLink} text-[13px]`}>
+                <Dash />
+                {g.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </Collapse>
+    </li>
+  );
+}
+
+function renderItem(p: FooterItem | FooterGroup) {
+  return "items" in p ? (
+    <Group key={p.label} group={p} />
+  ) : (
+    <li key={p.href}>
+      <Link href={p.href} className={navLink}>
+        <Dash />
+        {p.label}
+      </Link>
+    </li>
+  );
+}
+
+function Apartments() {
+  const [showAll, setShowAll] = useState(false);
+  const first = PROPERTIES.slice(0, VISIBLE_COUNT);
+  const rest = PROPERTIES.slice(VISIBLE_COUNT);
+
+  return (
+    <>
+      <Heading>Apartments</Heading>
+      <ul className="mt-6 space-y-3 text-sm">{first.map(renderItem)}</ul>
+
+      <Collapse open={showAll}>
+        <ul className="space-y-3 pt-3 text-sm">{rest.map(renderItem)}</ul>
+      </Collapse>
+
+      <button
+        type="button"
+        aria-expanded={showAll}
+        onClick={() => setShowAll((v) => !v)}
+        className="mt-5 inline-flex items-center gap-2 border border-(--gold)/50 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-(--gold-light) transition hover:border-(--gold-light) hover:bg-(--gold)/10"
+      >
+        {showAll ? "Show less" : "Show more"}
+        <Chevron open={showAll} />
+      </button>
+
+      <div className="mt-4">
+        <Link
+          href="/apartments"
+          className="group inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-white/70 transition hover:text-(--gold-light)"
+        >
+          View all apartments
+          <span
+            aria-hidden
+            className="transition-transform duration-300 group-hover:translate-x-1"
+          >
+            →
+          </span>
+        </Link>
+      </div>
+    </>
+  );
+}
 
 export default function Footer() {
   const [year, setYear] = useState<number | null>(null);
@@ -160,17 +320,7 @@ export default function Footer() {
         </Reveal3D>
 
         <Reveal3D variant="rise" delay={200} className="md:col-span-3">
-          <Heading>Apartments</Heading>
-          <ul className="mt-6 space-y-3 text-sm">
-            {PROPERTIES.map((p) => (
-              <li key={p.href}>
-                <Link href={p.href} className={navLink}>
-                  <Dash />
-                  {p.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <Apartments />
         </Reveal3D>
 
         <Reveal3D variant="flipRight" delay={300} className="md:col-span-3">

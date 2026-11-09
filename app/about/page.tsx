@@ -25,12 +25,15 @@ const palette = {
 /* EDIT HERE: your photos. Put files in public/images/about/ and set the path,
    e.g. hero: "/images/about/hero.jpg". Leave null to show a placeholder. */
 const IMAGES: Record<string, string | null> = {
-  hero: "/images/coast.jpg"/* whitewashed villa with pool, vertical */,
-  heroSmall: "/images/heroSmall.jpg"/* terrace or doorway detail */,
+  hero: "/images/coast.jpg" /* whitewashed villa with pool, vertical */,
+  heroSmall: "/images/heroSmall.jpg" /* terrace or doorway detail */,
   coast: "/images/coast.jpg" /* Aegean coastline, wide */,
-  street: "/images/street.jpg"/* stone street, old town */,
+  street: "/images/street.jpg" /* stone street, old town */,
   bring: "/images/bring.jpg" /* architecture detail */,
-  harbour: "/images/greek-harbour.jpg",/* harbour town, wide */
+  harbour: "/images/greek-harbour.jpg" /* harbour town, wide */,
+  /* OWNER PHOTOS: put the files in public/images/about/ */
+  owner1: "/images/owner-1.jpg" /* ← 1st owner (light blue shirt) */,
+  owner2: "/images/owner-2.jpg" /* ← 2nd owner (white blouse) */,
 };
 
 /* Paper texture over cream sections */
@@ -188,9 +191,7 @@ function Photo({
             </p>
           </div>
         )}
-        {tag && (
-          <Tag className="absolute bottom-3 right-0">{tag}</Tag>
-        )}
+        {tag && <Tag className="absolute bottom-3 right-0">{tag}</Tag>}
       </div>
     </div>
   );
@@ -279,6 +280,13 @@ const strip = [
   { icon: "heart" as const, t: "A brighter future for your family" },
 ];
 
+/* EDIT HERE: owners / team. Change name, role and bio. */
+/* EDIT HERE: owners / team. */
+const team = [
+  { id: "owner1" as const, role: "Co-Founder" },
+  { id: "owner2" as const, role: "Co-Founder" },
+];
+
 export default function AboutPage() {
   return (
     <main className="bg-(--cream) text-(--navy)" style={palette}>
@@ -335,7 +343,6 @@ export default function AboutPage() {
               label="Terrace detail"
               className="absolute -bottom-8 left-0 aspect-square w-[42%]"
             />
-         
           </div>
         </div>
       </section>
@@ -649,8 +656,35 @@ export default function AboutPage() {
         </Reveal>
       </section>
 
+      {/* ───────── TEAM · cream ───────── */}
+      <section className="relative bg-(--cream)">
+        <Paper />
+        <Reveal className="relative mx-auto max-w-6xl px-6 py-20 md:py-28">
+          <Title
+            center
+            title="Meet the team"
+            sub="The people behind Aurevon"
+          />
+    <ul className="mx-auto mt-14 grid max-w-3xl gap-12 sm:grid-cols-2">
+  {team.map((m) => (
+    <li key={m.id} className="text-center">
+      <Photo
+        id={m.id}
+        label={m.role}
+        arch
+        className="mx-auto aspect-3/4 w-full max-w-xs"
+      />
+      <p className="mt-6 font-serif text-xl font-bold uppercase tracking-[0.2em] text-(--gold-dark)">
+        {m.role}
+      </p>
+    </li>
+  ))}
+</ul>
+        </Reveal>
+      </section>
+
       {/* ───────── PRINCIPLES · navy ───────── */}
-      <div className="bg-(--paper)">
+      <div className="bg-(--cream)">
         <Wave />
       </div>
       <section
