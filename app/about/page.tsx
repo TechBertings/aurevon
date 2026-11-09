@@ -408,29 +408,31 @@ export default function AboutPage() {
 
           <ul className="mx-auto grid w-full max-w-2xl grid-cols-3 gap-3 sm:gap-5 lg:col-span-7 lg:max-w-none">
             {team.map((m, i) => (
-              <li
-                key={m.id}
-                className={`text-center ${
-                  i === 1 ? "lg:-translate-y-8" : "lg:translate-y-4"
-                }`}
-              >
-                <Photo
-                  id={m.id}
-                  arch
-                  label={`${m.name}, ${m.role}`}
-                  className="aspect-3/4 w-full"
-                />
-             <p className="mt-4 font-serif text-sm font-bold text-(--navy) sm:text-lg">
+       <li
+  key={m.id}
+  className={`min-w-0 text-center ${
+    i === 1 ? "lg:-translate-y-8" : "lg:translate-y-4"
+  }`}
+>
+  <a
+    href={`#${m.id}`}
+    aria-label={`Read more about ${m.name}`}
+    className="group block"
+  >
+    <Photo
+      id={m.id}
+      arch
+      label={`${m.name}, ${m.role}`}
+      className="aspect-3/4 w-full transition duration-500 group-hover:-translate-y-1.5 group-hover:shadow-[0_30px_60px_-20px_rgba(16,35,94,0.55)]"
+    />
+   <p className="mt-4 font-serif text-sm font-bold text-(--navy) transition group-hover:text-(--gold-dark) sm:text-lg">
   {m.name}
 </p>
-<p className="mt-1 font-serif text-[11px] font-semibold leading-snug text-(--gold-dark) sm:text-sm">
-  {m.fullRole}
+<p className="mx-auto mt-1 max-w-[24ch] text-balance font-serif text-[11px] font-medium leading-snug text-(--gold-dark)/90 sm:min-h-[2.6em] sm:text-sm">
+  {m.role}
 </p>
-<span aria-hidden className="mx-auto my-1.5 block h-px w-6 bg-(--gold)/60" />
-<p className="font-serif text-[11px] italic leading-snug text-(--gold-dark)/80 sm:text-sm">
-  {m.title}
-</p>
-              </li>
+  </a>
+</li>
             ))}
           </ul>
         </div>
@@ -821,8 +823,8 @@ export default function AboutPage() {
         const photoRight = i % 2 === 1;
         const src = IMAGES[m.id];
         return (
-          <li key={m.id}>
-            <Reveal className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+   <li key={m.id} id={m.id} className="scroll-mt-28">
+  <Reveal className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
               {/* Photo */}
               <div
                 className={`relative h-120 overflow-hidden rounded-3xl border border-(--gold)/40 bg-(--paper) shadow-[0_30px_60px_-30px_rgba(16,35,94,0.45)] md:h-144 ${
